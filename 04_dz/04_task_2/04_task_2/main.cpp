@@ -31,30 +31,41 @@ int main()
     }
     printf ("\n");
 
-    printf ("non-B elements of A is targets: \n");    // местоположение в массиве А
+    printf ("non-B numbers: \n");    //  значение в массиве А
     printf ("           ");                           // это, чтобы строчки были вровень
-
 
     for (int i = 0; i < sizeA; ++i)
     {
-     bool found = false;
-             for (int j = 0; j < sizeB && !found; ++j)
-             {
-                 if (A[i] == B[j])
-                 found = true;
-             }
-         if (!found)
-         {
-          E [index_E] = A[i];
-          ++index_E;
-          }
-       }
-             for(int i = 0; i < index_E; ++i)
-              {
-                  printf("%d ", E [i]);
-              }
+    bool found = false;
+        for (int j = 0; j < sizeB && !found; ++j)
+        {
+            if (A[i] == B[j])
+            found = true;
+        }
+            if (!found)
+            {
+                E [index_E] = A[i];
+                ++index_E;
+            }
+    }
 
+    for(int i = 0; i < index_E; ++i)
+    {
+        printf("%d ", E [i]);
+    }
 
+    printf ("\n");
+    printf ("non-B location: \n");                     // местоположение в массиве А
+    printf ("           ");                           // это, чтобы строчки были вровень
+
+    for(int i = 0; i < sizeA; ++i)
+    {
+        for (int j = 0; j < index_E; ++j)
+        if (A[i]==E[j])
+        printf("%d ", ++i);
+    }
+
+    printf ("\n");
     printf ("\n");
 
    return 0;
