@@ -8,8 +8,8 @@ int main()
 {
     constexpr int size = 40;
     int M [size];
-    int updated_M [size];
-    int index_updated_M = 0;
+//    int updated_M [size];
+//    int index_updated_M = 0;
 
     srand(10% - 100);        // почему тут Srand, а дальше по тексту rand . Это одно и тоже??
 
@@ -32,15 +32,14 @@ int main()
       }
       printf ("max = %d\n", max);
 
-      for (int i = 0; i < 100; i++)
-      {
-          if (M[i] < last_min && M[i]<0 && M[i]>-100)   //пока не последний минимум, а просто самый минимум
-          {
+       for (int i = 0; i < 40; ++i)
+       {
+           if ( M[i] < 0 )   //
+           {
            last_min = M[i];
-          }
-       }
-       printf ("last_min = %d\n", last_min);
-
+           }
+        }
+       printf ("last min = %d\n", last_min);
 
     return 0;
 }
