@@ -8,38 +8,51 @@ int main()
 {
     constexpr int size = 40;
     int M [size];
-//    int updated_M [size];
-//    int index_updated_M = 0;
+    int updated_M [size];
+    int index_updated_M = 0;
+    int max = 0;                                    //максимальное число
+    int last_min = 0;                               //последнее отрицательное
 
-    srand(10% - 100);        // почему тут Srand, а дальше по тексту rand . Это одно и тоже??
+    srand(10% - 100);                              //почему тут Srand, а дальше по тексту rand . Это одно и тоже??
 
-    for ( int i = 0; i < size; ++i)
+    for (int i = 0; i < size; ++i)
     {
-        M [i] = rand ()% 100 - 50;
+        M [i] = rand ()% 100 - 50;                 //делаем рандом
         printf ("%d ", M[i]);
     }
     printf ("\n");
 
-    int max = 0;             //максимальное число
-    int last_min = 0;        // последнее отрицательное
-
-    for (int i = 0; i<100; i++)
-     {
-        if (M[i] > max && M[i] <100 && M[i]>0)
+        for (int i = 0; i<size; ++i)               // считаем максимум
         {
-         max = M[i];
+            if (M[i] > max && M[i] < 100 && M[i] > 0)       // тут меньше 100 потому что я знаю диапазон, как сделать для любого диапазона??
+            {
+            max = M[i];
+            }
         }
-      }
-      printf ("max = %d\n", max);
+        printf ("max = %d\n", max);
 
-       for (int i = 0; i < 40; ++i)
-       {
-           if ( M[i] < 0 )   //
-           {
-           last_min = M[i];
-           }
+        for (int i = 0; i < size; ++i)               // считаем минимум
+        {
+            if ( M[i] < 0 )
+            {
+            last_min = M[i];
+            }
         }
-       printf ("last min = %d\n", last_min);
+        printf ("last min = %d\n", last_min);
 
+        for (int i = 0; i <size; ++i)              // меняем местами минимум и максимум
+        {
+            if (M[i] == max)
+            updated_M [index_updated_M] = last_min;
+            else if (M[i] == last_min)
+            updated_M [index_updated_M] = max;
+            else updated_M [index_updated_M] = M[i];
+            ++index_updated_M;
+        }
+
+    for(int i = 0; i < index_updated_M; ++i)       // результат
+    printf ("%d ", updated_M [i]);
+
+    printf ("\n");
     return 0;
 }
