@@ -3,27 +3,34 @@
 
 #include<stdio.h>
 #include<string.h>
+#include <stdlib.h>
 int main()
 {
-    char s[50];
-    int i,j,k,l;
-    i=0;
-    k=0;
-    gets (s);
-    while(s[i]!=0)
-    {
-        for(j=i;s[i]==' '&&s[i]!=0;i++);
-        for(l=i;s[i]!=' '&&s[i]!=0;i++);
-            if(((i-l)&1)==0)
-            {
-                for(;j<i;j++,k++)
-                {
-                      s[k]=s[j];
-                      printf("%c",s[k]);
-                }
-            }
-    }
-    printf("\n");
+    char str [50] = {};
+    char result_str [50] = {};
+
+    gets (str);
+    char* word;
+
+    char sep [10] = " ";
+       word = strtok(str, sep);
+       while (word != nullptr)
+        {
+           printf ("word is %s \n", word);
+           word = strtok (nullptr, sep);
+
+
+        if (word != nullptr && (strlen(word))%2 == 0)
+        {
+           strcpy (result_str, word);
+           printf ("chetnye - %s \n", result_str);
+         }
+}
+
+
+//printf ("chetnye - %s", result_str);
+
+    // puts (result_str);
 
     return 0;
 }
