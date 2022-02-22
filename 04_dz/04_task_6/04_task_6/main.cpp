@@ -4,19 +4,20 @@
 
 int main()
 {
-    int ch;
+    constexpr int X = 256;
+    int ch [X];
     int a = 0;
     printf("enter skobocki: ");
 
     do
     {
-        ch = getchar();
-        if (ch == '(')
+        *ch = getchar();
+        if (*ch == '(')
         a++;
-        else if (ch == ')' && --a < 0)
+        else if (*ch == ')' && --a < 0)
         break;
     }
-    while (ch != '\n');
+    while (*ch != '\n');
 
     if (a == 0)
     printf("true \n");
