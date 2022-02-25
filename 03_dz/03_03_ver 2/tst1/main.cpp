@@ -1,3 +1,4 @@
+#include "part_1.h"
 #include <stdio.h>
 #include <math.h>
 
@@ -9,13 +10,7 @@ int main()
    printf ("enter value:");
    scanf ("%llu", &N);
 
-   int m = 0;
-    if (N >= 1)  // если N больше или равно 1 - делает по формуле и дает ответ
-    {
-    m = log10 (N) +1;
-    printf ("Kol-vo znakov = %u \n", m);
-    }
-    else printf ("warning: don't input <= 0\n"); // если ввели всякую фигню или меньше 1
+    part_1 (N);
 
     printf ("enter new value:");
     scanf ("%llu", &N2);
