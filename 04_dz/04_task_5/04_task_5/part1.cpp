@@ -12,15 +12,15 @@ void part1(const char* src, char* dest)
 //          return;
     for (unsigned int i = 0; i <strlen (str); )
     {
-        char* word [255]= {};
+        char word [255]= {};
   //   *word [254] = '\0';
         sscanf(str +i, "%s", word);
-            if ( (strlen ((char*)word)%2) == 0)
+            if ( (strlen (word)%2) == 0)
                {
-                strncat (result_str, (char*)word, sizeof (str));
-                strncat (result_str, " ", sizeof(str));
+                strncat (result_str, word, sizeof (word));
+                strncat (result_str, " ", sizeof(word));
                 }
-        i= i + strlen((char*)word) +1;
+        i= i + strlen(word) +1;
     }
     printf ("%s ", result_str);
 //    *result_str = '\0';

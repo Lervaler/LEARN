@@ -6,7 +6,7 @@ TEST (Test_dz_4_task_5, test1)
 {
     const char* str = "qqq ww eeee r";
     const char* result_str = "ww eeee ";
-    char result[449];
+    char result[255] = {};
 
     part1 (str, result);
 
