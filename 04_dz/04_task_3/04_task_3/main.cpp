@@ -12,24 +12,24 @@ int main()
     int k;
     srand(100);
 
-    for (int i = 0; i < X; ++i)
+    for(int i = 0; i < X; ++i)
     {
-        for (int j = 0; j < Y; ++j)
+        for(int j = 0; j < Y; ++j)
         {
-            A [i][j] = rand ()% 10;
-            printf ("%2d ", A[i][j]);
+            A[i][j] = rand()% 10;
+            printf("%2d ", A[i][j]);
         }
-    printf ("  \n");
+            printf("  \n");
     }
 
-    printf ("Enter number of column to replace same line: ");
-    scanf ("%d", &k);
+    printf("Enter number of column to replace same line: ");
+    scanf("%d", &k);
 
-    for (int i = 0; i < X; ++i)
+    for(int i = 0; i < X; ++i)
     {
-        for (int j = 0; j < Y; ++j)
+        for(int j = 0; j < Y; ++j)
         {
-            if (i == k)
+            if(i == k)
             {
                 index_X = A[i][j];
                 A[i][j] = A[j][i];
@@ -37,7 +37,7 @@ int main()
             }
         }
     }
-    printf ("  \n");
+        printf("  \n");
 
     for(int i = 0; i < X; ++i)
     {
@@ -45,7 +45,7 @@ int main()
         {
             printf("%2d ", A[i][j]);
         }
-        printf("\n");
+            printf("\n");
     }
 
     return 0;
