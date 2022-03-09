@@ -1,28 +1,29 @@
 //Дана строка символов. Определить, является ли она правильным скобочным выражением.
 #include <stdio.h>
-#include<string.h>
+#include <string.h>
 
 int main()
 {
-    constexpr int X = 256;
-    int ch [X];
+    char ch = 0;
     int a = 0;
     printf("enter skobocki: ");
 
     do
     {
-        *ch = getchar();
-        if (*ch == '(')
+        ch = getchar();
+        if (ch == '(')
         a++;
-        else if (*ch == ')' && --a < 0)
+        else if (ch == ')' && --a < 0)
         break;
     }
-    while (*ch != '\n');
+    while (ch != '\n');
 
     if (a == 0)
-    printf("true \n");
+        printf("true \n");
     else
-    printf("false \n");
+        printf("false \n");
 
     return 0;
 }
+
+
