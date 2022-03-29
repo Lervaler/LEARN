@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include "player.h"
 #include "map.h"
-#include "move_player.h"
 
 extern Player player;
 int key = 0;
@@ -21,7 +20,7 @@ void DisplayRender(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     print_map(&map);
-//    move_player(player, key);
+//    move_player(player, key, map);
     glFlush();
 }
 
@@ -38,9 +37,9 @@ void ExitKey(unsigned char, int, int)
 
 void tick(int)
 {
-    move_player(player, key, map);
+    move_player(&player, key, &map);
     glutShowWindow();
-    glutTimerFunc(5, &tick, 1);
+    glutTimerFunc(5, &tick, 0);
 }
 
 int main(int argc, char **argv) {
@@ -58,7 +57,7 @@ int main(int argc, char **argv) {
     glutKeyboardFunc(&ExitKey);
     glutReshapeFunc(&Reshape);
 
-    glutTimerFunc(5, &tick, 1);
+    glutTimerFunc(5, &tick, 0);
 
     glutMainLoop();
 

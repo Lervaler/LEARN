@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include "map.h"
 #include "player.h"
-#include "move_player.h"
 #include <stdlib.h>
 
 extern Player player = {0, 0};

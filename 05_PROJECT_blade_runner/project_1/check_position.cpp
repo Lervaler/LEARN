@@ -1,6 +1,5 @@
 #include "player.h"
 #include "map.h"
-#include "move_player.h"
 #include <stdio.h>
 
 
