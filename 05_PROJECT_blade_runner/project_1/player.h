@@ -9,5 +9,4 @@ struct Player
 
 void PrintPlayer(Player player);
 
-
 #endif // PLAYER_H

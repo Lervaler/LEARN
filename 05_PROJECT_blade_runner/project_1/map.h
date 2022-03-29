@@ -1,12 +1,24 @@
 #ifndef MAP_H
 #define MAP_H
 
-struct Map
+constexpr int SIZE_h = 30;
+constexpr int SIZE_w = 40;
+
+enum MapType
 {
-    int x;
-    int y;
+    BLOCK = '#',
+    FREE_SPACE = '.',
+    LADDER = '&',
+    EXIT = 'X',
+    GOLD = 'G',
 };
 
-void PrintMap(Map map);
+struct Map
+{
+    char map[SIZE_h][SIZE_w];
+};
+
+void init_map(Map* map, const char* path);
+void print_map(const Map* map);
 
 #endif // MAP_H
