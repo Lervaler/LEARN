@@ -1,6 +1,6 @@
 #include <GL/freeglut.h>
+#include <stdlib.h>
 #include "player.h"
-#include <math.h>
 #include "map.h"
 
 void PrintPlayer(Player player)
@@ -16,19 +16,18 @@ glBegin(GL_POLYGON);
 glEnd();
 }
 
-int speed = 1;
+int speed = 25;
 int current_speed = 0;
 
 void move_player(Player* player, int key, Map* map)
 {
-
     switch (key)
     {    case GLUT_KEY_UP:
         if (current_speed == 0)
         {
             current_speed = speed;
             {
-                 ++player->y*20;
+                 player->y = player->y+20;
             }
         }
         else
@@ -39,7 +38,7 @@ void move_player(Player* player, int key, Map* map)
         {
             current_speed = speed;
             {
-                 --player->y*20;
+                 player->y = player->y-20;
             }
         }
         else
@@ -50,7 +49,7 @@ void move_player(Player* player, int key, Map* map)
         {
             current_speed = speed;
             {
-                 --player->x*20;
+                 player->x = player->x-20;
             }
         }
         else
@@ -61,14 +60,15 @@ void move_player(Player* player, int key, Map* map)
              {
                  current_speed = speed;
                  {
-                      ++player->x*20;
+                      player->x = player->x+20;
                  }
              }
              else
              --current_speed;
          break;
     };
-//    if (player->player.x == 'EXIT')
+//    if (map->map[player->x][player->y] == EXIT)
+//        return exit(0);
+//    if ((player->x && player->y) == EXIT)
+//        return exit (0);
 };
-
-

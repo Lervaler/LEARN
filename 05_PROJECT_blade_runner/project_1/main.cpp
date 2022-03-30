@@ -1,5 +1,6 @@
 #include <GL/freeglut.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "player.h"
 #include "map.h"
 
