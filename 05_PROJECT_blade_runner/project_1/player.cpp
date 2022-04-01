@@ -19,7 +19,7 @@ glEnd();
 int speed = 25;
 int current_speed = 0;
 
-void move_player(Player* player, int key, Map* map)
+void move_player(Player* player, int key)
 {
     switch (key)
     {    case GLUT_KEY_UP:
@@ -71,4 +71,39 @@ void move_player(Player* player, int key, Map* map)
 //        return exit(0);
 //    if ((player->x && player->y) == EXIT)
 //        return exit (0);
-};
+
+//    if (player == map->map[0][38])
+//        return exit (0);
+}
+
+bool check_position(Player* player, Map* map)
+{
+     if(map->map[player->x][player->y] == FREE_SPACE)
+        return true;
+     else if(map->map[player->x][player->y] == GOLD)        //
+        return true;
+     else if(map->map[player->x][player->y] == LADDER)     //
+        return true;
+     else if (map->map[player->x][player->y] == BLOCK)
+        return false;
+    else if(map->map[player->x][player->y] == EXIT)         //
+        return false;
+}
+
+int super_check(Player* player, Map* map)
+{
+    if(map->map[player->x][player->y] == FREE_SPACE)
+       return 1;
+    else if(map->map[player->x][player->y] == GOLD)        //
+       return 2;
+    else if(map->map[player->x][player->y] == LADDER)     //
+       return 3;
+    else if (map->map[player->x][player->y] == BLOCK)
+       return 4;
+   else if(map->map[player->x][player->y] == EXIT)         //
+       return 5;
+}
+
+
+
+

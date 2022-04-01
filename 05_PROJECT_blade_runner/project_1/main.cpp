@@ -21,7 +21,6 @@ void DisplayRender(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     print_map(&map);
-//    move_player(player, key, map);
     glFlush();
 }
 
@@ -31,14 +30,59 @@ void Reshape(int, int)
     glLoadIdentity();
     glOrtho (0,800, 0, 600, 1, 0);
 }
-void ExitKey(unsigned char, int, int)
-{
-    exit(0);
-}
+//void ExitKey(unsigned char, int, int)
+//{
+//    exit(0);
+//}
 
 void tick(int)
 {
-    move_player(&player, key, &map);
+//    if( check_position( &player, &map) == false)
+//    move_player(&player, key);
+//    if( check_position( &player, &map) == true)
+//    move_player(&player, key);
+
+//    switch (super_check(&player, &map))
+//{
+//    case 1:
+//        move_player(&player, key);
+//        glutShowWindow();
+//        glutTimerFunc(5, &tick, 0);
+//        break;
+//    case 2:
+//    move_player(&player, key);
+//    glutShowWindow();
+//    glutTimerFunc(5, &tick, 0);
+//        break;
+//    case 3:
+//    move_player(&player, key);
+//    glutShowWindow();
+//    glutTimerFunc(5, &tick, 0);
+//        break;
+//    case 4:
+//        move_player (&player, key);
+//        glutShowWindow();
+//        glutTimerFunc(5, &tick, 0);
+//        break;
+//    case 5:
+//    exit (0);
+//
+
+//        move_player(&player, key);
+        switch (check_position(&player, &map))
+    {
+        case true:
+            move_player(&player, key);
+            glutShowWindow();
+            glutTimerFunc(5, &tick, 0);
+            break;
+        case false:
+            move_player(&player, key);
+            glutShowWindow();
+            glutTimerFunc(5, &tick, 0);
+            break;
+}
+
     glutShowWindow();
     glutTimerFunc(5, &tick, 0);
 }
@@ -55,7 +99,7 @@ int main(int argc, char **argv) {
     glutDisplayFunc(&DisplayRender);
     glutSpecialFunc(&MyKeyDown);
     glutSpecialUpFunc(&MyKeyUp);
-    glutKeyboardFunc(&ExitKey);
+//    glutKeyboardFunc(&ExitKey);
     glutReshapeFunc(&Reshape);
 
     glutTimerFunc(5, &tick, 0);
