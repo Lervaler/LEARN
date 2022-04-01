@@ -6,7 +6,7 @@
 
 extern Player player;
 int key = 0;
- Map map;
+Map map;
 
  void MyKeyUp(int, int, int)
  {
@@ -37,10 +37,16 @@ void Reshape(int, int)
 
 void tick(int)
 {
+    move_player(&player, key);
+    glutShowWindow();
+    glutTimerFunc(5, &tick, 0);
+
 //    if( check_position( &player, &map) == false)
 //    move_player(&player, key);
 //    if( check_position( &player, &map) == true)
 //    move_player(&player, key);
+//        glutShowWindow();
+//        glutTimerFunc(5, &tick, 0);
 
 //    switch (super_check(&player, &map))
 //{
@@ -69,22 +75,19 @@ void tick(int)
 //
 
 //        move_player(&player, key);
-        switch (check_position(&player, &map))
-    {
-        case true:
-            move_player(&player, key);
-            glutShowWindow();
-            glutTimerFunc(5, &tick, 0);
-            break;
-        case false:
-            move_player(&player, key);
-            glutShowWindow();
-            glutTimerFunc(5, &tick, 0);
-            break;
-}
-
-    glutShowWindow();
-    glutTimerFunc(5, &tick, 0);
+//        switch (check_position(&player, &map))
+//    {
+//        case true:
+//            move_player(&player, key);
+//            glutShowWindow();
+//            glutTimerFunc(5, &tick, 0);
+//            break;
+//        case false:
+//            move_player(&player, key);
+//            glutShowWindow();
+//            glutTimerFunc(5, &tick, 0);
+//            break;
+//}
 }
 
 int main(int argc, char **argv) {
