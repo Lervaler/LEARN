@@ -42,11 +42,16 @@ void tick(int)
     glutTimerFunc(5, &tick, 0);
 
 //    if( check_position( &player, &map) == false)
-//    move_player(&player, key);
-//    if( check_position( &player, &map) == true)
-//    move_player(&player, key);
+//    {
+//        move_player(&player, key);
 //        glutShowWindow();
 //        glutTimerFunc(5, &tick, 0);
+//     };
+//    if( check_position( &player, &map) == true)
+//    {
+//        glutShowWindow();
+//        glutTimerFunc(5, &tick, 0);
+//    };
 
 //    switch (super_check(&player, &map))
 //{
@@ -72,6 +77,7 @@ void tick(int)
 //        break;
 //    case 5:
 //    exit (0);
+//}
 //
 
 //        move_player(&player, key);
@@ -87,7 +93,7 @@ void tick(int)
 //            glutShowWindow();
 //            glutTimerFunc(5, &tick, 0);
 //            break;
-//}
+//     }
 }
 
 int main(int argc, char **argv) {
