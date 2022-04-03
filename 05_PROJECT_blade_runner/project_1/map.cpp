@@ -4,14 +4,13 @@
 #include "player.h"
 #include <stdlib.h>
 
-extern Player player = {0, 0};
-
 void init_map(Map* map, const char* path)
 {
     FILE* file = fopen(path, "r");
     for(int i = 0; i<SIZE_h; ++i)
     {
-        fscanf(file, "%s", map->map[i]);
+        fread(map->map[SIZE_h - i - 1], SIZE_w, 1, file);
+        fseek(file, 2, SEEK_CUR);
     }
     fclose(file);
 }
@@ -41,10 +40,10 @@ void print_map(const Map* map)
                 glColor3f(0.5, 0.5, 0.5);
                 break;
             }
-            glVertex2i(j*20, 580 - i*20);
-            glVertex2i(j*20+30, 580-  i*20);
-            glVertex2i(j*20+30, 580 - i*20+20);
-            glVertex2i(j*20, 580 -i*20+20);
+            glVertex2i(j * 20,      i * 20);
+            glVertex2i(j * 20 + 30, i * 20);
+            glVertex2i(j * 20 + 30, i * 20 + 20);
+            glVertex2i(j * 20,      i * 20 + 20);
 
             glEnd ();
         }

@@ -4,7 +4,7 @@
 #include "player.h"
 #include "map.h"
 
-extern Player player;
+
 int key = 0;
 Map map;
 
@@ -37,26 +37,28 @@ void Reshape(int, int)
 
 void tick(int)
 {
-    move_player(&player, key);
+    if (key != 0 && check_position(&player, &map, key))
+    {
+
+ //       move_player(&player, key);
+           switch (super_check(&player, &map, key))
+        {
+           case 10:
+               do {player = {player.x, player.y -1};} while (key != 0 && check_position(&player, &map, key) == false);
+              // move_player(&player, key);
+               break;
+           }
+
+  //    move_player(&player, key);
+    };
+
     glutShowWindow();
     glutTimerFunc(5, &tick, 0);
-
-//    if( check_position( &player, &map) == false)
-//    {
-//        move_player(&player, key);
-//        glutShowWindow();
-//        glutTimerFunc(5, &tick, 0);
-//     };
-//    if( check_position( &player, &map) == true)
-//    {
-//        glutShowWindow();
-//        glutTimerFunc(5, &tick, 0);
-//    };
 
 //    switch (super_check(&player, &map))
 //{
 //    case 1:
-//        move_player(&player, key);
+//        move_player(&player, GLUT_KEY_DOWN);
 //        glutShowWindow();
 //        glutTimerFunc(5, &tick, 0);
 //        break;
