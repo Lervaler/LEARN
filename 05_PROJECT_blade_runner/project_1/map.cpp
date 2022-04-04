@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "map.h"
 #include "player.h"
+#include "end_game.h"
 #include <stdlib.h>
 
 void init_map(Map* map, const char* path)
@@ -49,5 +50,6 @@ void print_map(const Map* map)
         }
     }
     PrintPlayer(player);
+//    print_end_game (end_game);
 }
 
