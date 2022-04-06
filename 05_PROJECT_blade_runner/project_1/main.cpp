@@ -4,9 +4,8 @@
 #include "player.h"
 #include "map.h"
 #include "end_game.h"
-#include "scode.h"
+#include "pick_up.h"
 #include <stdlib.h>
-
 
 int key = 0;
 Map map;
@@ -20,26 +19,11 @@ Map map;
      key = ch;
  }
 
-int chet = 0;
-unsigned int count = 0;                        // придумать как сделать счет
-void score (Player* player, Map* map)
-{
-    if (map->map[player->y][player->x] == GOLD)
-    {
-        ++count;
-    printf ("count = %d\n", &count);
-    };
-}
-
 void DisplayRender(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     print_map(&map);
-
-    if (map.map[player.y][player.x] == GOLD)
-        {
-           map.map[player.y][player.x] = FREE_SPACE;
-         };
+    pick_up(&player, &map);
 
     if (map.map[player.y][player.x] == EXIT) print_end_game (end_game);
 
@@ -57,8 +41,6 @@ void ExitKey(unsigned char, int, int)
     exit(0);
 }
 
-
-
 void tick(int)
 {
     if (key != 0 && check_position(&player, &map, key))
@@ -74,7 +56,6 @@ void tick(int)
                 map.map[player.y][player.x] == GOLD)
                {
                 move_player(&player, key);
-                score(&player, &map);
                 }
 
         else if (map.map[player.y][player.x] == EXIT)
@@ -102,7 +83,6 @@ int main(int argc, char **argv) {
     glutReshapeFunc(&Reshape);
 
     glutTimerFunc(5, &tick, 0);
-
     glutMainLoop();
 
     return 0;
