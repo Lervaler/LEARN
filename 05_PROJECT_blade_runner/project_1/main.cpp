@@ -20,12 +20,29 @@ Map map;
      key = ch;
  }
 
+int chet = 0;
+unsigned int count = 0;                        // придумать как сделать счет
+void score (Player* player, Map* map)
+{
+    if (map->map[player->y][player->x] == GOLD)
+    {
+        ++count;
+    printf ("count = %d\n", &count);
+    };
+}
+
 void DisplayRender(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     print_map(&map);
-    if (map.map[player.y][player.x] == EXIT)
-    print_end_game (end_game);
+
+    if (map.map[player.y][player.x] == GOLD)
+        {
+           map.map[player.y][player.x] = FREE_SPACE;
+         };
+
+    if (map.map[player.y][player.x] == EXIT) print_end_game (end_game);
+
     glFlush();
 }
 
@@ -41,9 +58,9 @@ void ExitKey(unsigned char, int, int)
 }
 
 
+
 void tick(int)
 {
-
     if (key != 0 && check_position(&player, &map, key))
     {
         if (map.map[player.y - 1][player.x] != BLOCK &&
@@ -55,43 +72,18 @@ void tick(int)
         else if (map.map[player.y][player.x] == FREE_SPACE ||
                 map.map[player.y][player.x] ==LADDER ||
                 map.map[player.y][player.x] == GOLD)
-             //   map.map[player.y][player.x] == EXIT)
+               {
                 move_player(&player, key);
+                score(&player, &map);
+                }
 
         else if (map.map[player.y][player.x] == EXIT)
                 exit (0);
-
-        else if (map.map[player.y][player.x] == GOLD)  // придумать как перезаписать gold на free после прохода
-            {
-                move_player(&player, key);
-// FILE* file = fopen("D:/01_Projects/HomeWork/LEARN/LEARN/05_PROJECT_blade_runner/project_1/map.txt", "r+t");
-//    for(int i = 0; i<SIZE_h; ++i)
-//    {
-//        fread(map.map[SIZE_h - i - 1], SIZE_w, 1, file);
-//        if (i == GOLD)
-//          i == FREE_SPACE;
-//        fseek(file, 2, SEEK_CUR);
-//    }
-//    fclose(file);
-             }
     };
 
     glutShowWindow();
     glutTimerFunc(5, &tick, 0);
-
 }
-
-int count = 0;                        // придумать как сделать счет
-void score (Player* player, Map* map)
-{
-    if (map->map[player->y][player->x] == GOLD)
-    {
-        ++count;
-    }
-     if (count > 3)
-    {printf ("count = %d", &count);};
-}
-
 
 
 int main(int argc, char **argv) {
@@ -110,8 +102,6 @@ int main(int argc, char **argv) {
     glutReshapeFunc(&Reshape);
 
     glutTimerFunc(5, &tick, 0);
-
-
 
     glutMainLoop();
 
