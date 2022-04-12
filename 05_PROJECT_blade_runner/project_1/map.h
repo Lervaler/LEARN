@@ -11,6 +11,7 @@ enum MapType
     LADDER = '&',
     EXIT = 'X',
     GOLD = 'G',
+    INVISIBLE = '*'
 };
 
 struct Map

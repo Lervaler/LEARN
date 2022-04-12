@@ -1,9 +1,10 @@
 #include <GL/freeglut.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "map.h"
 #include "player.h"
 #include "end_game.h"
-#include <stdlib.h>
+
 
 void init_map(Map* map, const char* path)
 {
@@ -40,6 +41,9 @@ void print_map(const Map* map)
                 case GOLD:
                 glColor3f(0.5, 0.5, 0.5);
                 break;
+                case INVISIBLE:
+                glColor3f(0.5, 0.5, 0.5);
+                break;
             }
             glVertex2i(j * 20,      i * 20);
             glVertex2i(j * 20 + 30, i * 20);
@@ -50,6 +54,5 @@ void print_map(const Map* map)
         }
     }
     PrintPlayer(player);
-//    print_end_game (end_game);
 }
 
