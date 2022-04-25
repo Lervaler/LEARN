@@ -3,13 +3,14 @@
 #include <stdlib.h>
 #include "map.h"
 #include "player.h"
+#include "enemy.h"
 #include "end_game.h"
-
+#include "texture.h"
 
 void init_map(Map* map, const char* path)
 {
     FILE* file = fopen(path, "r");
-    for(int i = 0; i<SIZE_h; ++i)
+    for(char i = 0; i<SIZE_h; ++i)
     {
         fread(map->map[SIZE_h - i - 1], SIZE_w, 1, file);
         fseek(file, 2, SEEK_CUR);
@@ -19,40 +20,44 @@ void init_map(Map* map, const char* path)
 
 void print_map(const Map* map)
 {
-    for (int i=0; i<SIZE_h; ++i)
+
+    for (char i=0; i<SIZE_h; ++i)
     {
-        for (int j=0; j<SIZE_w; ++j)
+        for (char j=0; j<SIZE_w; ++j)
         {
-            glBegin(GL_POLYGON);
             switch(map->map[i][j])
             {
                 case BLOCK:
-                glColor3f(0.0, 0.0, 0.9);
+                glBindTexture (GL_TEXTURE_2D, 1);
                 break;
                 case FREE_SPACE:
-                glColor3f(0.0, 0.0, 0.0);
+                glBindTexture (GL_TEXTURE_2D, 2);
                 break;
                 case LADDER:
-                glColor3f(0.0, 0.5, 0.0);
+                glBindTexture (GL_TEXTURE_2D, 3);
                 break;
                 case EXIT:
-                glColor3f(0.5, 0.5, 0.0);
+                glBindTexture (GL_TEXTURE_2D, 4);
                 break;
                 case GOLD:
-                glColor3f(0.5, 0.5, 0.5);
-                break;
-                case INVISIBLE:
-                glColor3f(0.5, 0.5, 0.5);
+                glBindTexture (GL_TEXTURE_2D, 5);
                 break;
             }
-            glVertex2i(j * 20,      i * 20);
-            glVertex2i(j * 20 + 30, i * 20);
-            glVertex2i(j * 20 + 30, i * 20 + 20);
-            glVertex2i(j * 20,      i * 20 + 20);
+
+            glColor3f(1, 1, 1);
+            glEnable(GL_TEXTURE_2D);
+            glBegin(GL_POLYGON);
+            glTexCoord2i(0, 0);    glVertex2i(j * 32,      i * 32);
+            glTexCoord2i(0, 1);    glVertex2i(j * 32,      i * 32 + 32);
+            glTexCoord2i(1, 1);    glVertex2i(j * 32 + 32, i * 32 + 32);
+            glTexCoord2i(1, 0);    glVertex2i(j * 32 + 32, i * 32);
 
             glEnd ();
+            glDisable(GL_TEXTURE_2D);
         }
+
     }
     PrintPlayer(player);
+    PrintEnemy(enemy);
 }
 

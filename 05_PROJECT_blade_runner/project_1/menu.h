@@ -7,7 +7,8 @@ constexpr int SIZE_w_m = 40;
 
 enum Menu_Type
 {
-    NAME_MENU = '$',
+    NAME_MENU_GAME = '$',
+    NAME_MENU_EXIT = '!',
     SPASE_MENU = '^',
     CHOOSE_MENU_GAME = '&',
     CHOOSE_MENU_EXIT = '@',

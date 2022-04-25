@@ -1,8 +1,8 @@
 #ifndef MAP_H
 #define MAP_H
 
-constexpr int SIZE_h = 30;
-constexpr int SIZE_w = 40;
+constexpr char SIZE_h = 30;
+constexpr char SIZE_w = 40;
 
 enum MapType
 {
@@ -10,8 +10,7 @@ enum MapType
     FREE_SPACE = '.',
     LADDER = '&',
     EXIT = 'X',
-    GOLD = 'G',
-    INVISIBLE = '*'
+    GOLD = 'G'
 };
 
 struct Map

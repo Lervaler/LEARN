@@ -10,10 +10,10 @@ void PrintPlayer(Player player)
     glBegin(GL_POLYGON);
 
     glColor3f(0.8, 0.0, 0.0);
-    glVertex2d(player.x * 20, player.y * 20);
-    glVertex2d(player.x * 20 + 20, player.y * 20);
-    glVertex2d(player.x * 20 + 20, player.y * 20 + 20);
-    glVertex2d(player.x * 20, player.y * 20 + 20);
+    glVertex2d(player.x * 32, player.y * 32);
+    glVertex2d(player.x * 32 + 32, player.y * 32);
+    glVertex2d(player.x * 32 + 32, player.y * 32 + 32);
+    glVertex2d(player.x * 32, player.y * 32 + 32);
 
     glEnd();
 }
@@ -60,6 +60,5 @@ bool check_position(Player* player, Map *map, int key)
 
     return map->map[tmp.y][tmp.x] == FREE_SPACE ||
            map->map[tmp.y][tmp.x] == LADDER ||
-           map->map[tmp.y][tmp.x] == GOLD ||
-           map->map[tmp.y][tmp.x] == INVISIBLE;
+           map->map[tmp.y][tmp.x] == GOLD;
 }

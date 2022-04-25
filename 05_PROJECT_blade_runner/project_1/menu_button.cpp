@@ -7,13 +7,15 @@ Button button = {12, 19};
 
 void PrintButton(Button button)
 {
-    glBegin(GL_POLYGON);
+    glBindTexture (GL_TEXTURE_2D, 6);
 
-    glColor3f(0.0, 0.9, 0.9);
-    glVertex2d(button.x * 20, button.y * 20);
-    glVertex2d(button.x * 20 + 20, button.y * 20);
-    glVertex2d(button.x * 20 + 20, button.y * 20 + 20);
-    glVertex2d(button.x * 20, button.y * 20 + 20);
+    glColor3f(1, 1, 1);
+    glEnable(GL_TEXTURE_2D);
+    glBegin(GL_POLYGON);
+    glTexCoord2i(0, 0);    glVertex2d(button.x * 32, button.y * 32);
+    glTexCoord2i(0, 1);    glVertex2d(button.x * 32, button.y * 32 + 32);
+    glTexCoord2i(1, 1);    glVertex2d(button.x * 32 + 32, button.y * 32 + 32);
+    glTexCoord2i(1, 0);    glVertex2d(button.x * 32 + 32, button.y * 32);
 
     glEnd();
 }
