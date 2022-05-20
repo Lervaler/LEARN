@@ -17,9 +17,12 @@ bool swap_string (string s, string goal)
     {
         for (unsigned long long int i = 0; i<s.size(); ++i)
         {
-             if(s[i] == s[i+i+1])
-             found = true;
             if (found == true) break;
+            for (unsigned long long int j = i; j < goal.size(); ++j)
+            {
+                if(s[i] == s[j+1])
+                found = true;
+            }
         }
     }
 
