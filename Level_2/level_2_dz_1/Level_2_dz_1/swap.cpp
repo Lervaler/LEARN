@@ -6,48 +6,35 @@ using namespace std;
 
 bool swap_string (string s, string goal)
 {
-    unsigned int i = 0;
-    unsigned int j = 0;
-    unsigned int tmp = 0;
-    int k = 0;
     bool found = false;
-    int d = 0;
-
-    for (i; i<goal.size(); ++i)
-    {
-        if (goal.size() == 2)
-        {
-            tmp = s[i];
-            s[i] = s[j];
-            s[j] = tmp;
-        }
-
-        else if (s != goal && s[i] != goal[i])
-        {
-            for (j; j<goal.size(); ++j)
-            {
-                if (s[i] != goal[i] && s[j] != goal[j] && s[i] != s[j] && goal.size() != 2)
-                    {
-                        tmp = s[i];
-                        s[i] = s[j];
-                        s[j] = tmp;
-                        ++k;
-                    };
-            }
-         }
-
-         else if (s == goal)
-         {
-              if(s[i] == s[i+i+1])
-              found = true;
-              if (found == false && k == 0) d = 1;
-         }
-    }
+    string s_temp;
+    string g_temp;
 
     if (s.size() != goal.size()) return false;
-    if (s.size()< 2) return false;
-    if (k >1) return false;
-    if (found == true) return true;
-    if (s == goal && d != 1 ) return true;
-    else return false;
+    if (goal.size() >20001) return false;
+
+    if (s == goal)
+    {
+        for (unsigned long long int i = 0; i<s.size(); ++i)
+        {
+             if(s[i] == s[i+i+1])
+             found = true;
+            if (found == true) break;
+        }
+    }
+
+    if (s != goal)
+    {
+        for (unsigned int i = 0; i<goal.size(); ++i)
+        {
+            if(s[i] != goal[i])
+            {
+                 s_temp.push_back(s[i]);
+                 g_temp.push_back(goal[i]);
+            }
+            if (s_temp.size() > 2) found = false;
+            if (s_temp [0] == g_temp[1] && s_temp [1] == g_temp[0] && s_temp.size() == 2 ) found = true;
+         }
+     }
+    return found;
 }
