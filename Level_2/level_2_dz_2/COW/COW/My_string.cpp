@@ -6,7 +6,7 @@ using namespace std;
 
 namespace My
 {
-String::String()                               // конструктор по умолчанию
+String::String()                                // конструктор по умолчанию
     : _ptr(nullptr)
     , _size(0)
     , _copasity(0)
@@ -30,6 +30,7 @@ String::String(const char* str)              // конструктор доба�
     _ptr = new char[_copasity + 1]{};
 
     strncpy(_ptr, str, _copasity);
+            std::cout << "_is_copy = " << _is_copy << std::endl;
 }
 
 String::String(const String& other)        // конструктор копирования
@@ -44,14 +45,14 @@ String::String(const String& other)        // конструктор копир�
     {
         std::cout << "_is_copy = " << _is_copy << std::endl;
         _ptr = other._ptr;
+        _is_copy = true;
     }
 
     if (other._ptr && other._is_copy)                // копия - выделяем память
     {
         std::cout << "_is_copy = " << _is_copy << std::endl;
-        _ptr = new char[_copasity + 1]{};
-        strncpy(_ptr, other._ptr, _copasity);
-        std::cout << " new memory ready" << std::endl;
+        _ptr = other._ptr;
+        _is_copy = false;
     }
 }
 
@@ -95,17 +96,22 @@ String& String::append(const String& other)                       // метод 
     {
         _copasity = (other._size + _size) * 2;
         char* tmp = new char[_copasity + 1]{};
-
         strncpy(tmp, _ptr, _copasity);
-
         delete [] _ptr;
         _ptr = tmp;
     }
+
+    if (other._is_copy == true)
+    {
+         std::cout << " new memory ready" << std::endl;            // выделяем память
+         _ptr = new char[_copasity + 1]{};
+         strncpy(_ptr, other._ptr, _copasity);
+    }
+
     strncat(_ptr, other._ptr, _copasity - _size);      // копипаста новых данных в конец старой строки
     _size += other._size;
 
     return *this;
-
 }
 
 String& String::append(String&& other)                        // метод класса перемещение
