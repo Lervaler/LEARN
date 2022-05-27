@@ -11,7 +11,7 @@ public:
     String();                             // конструктор по умолчанию
     String(const char* str);              // конструктор добавления новой строки к имеющейся
     String(const String& other);          // конструктор копирования
-    String(String&& other);               // конструктор перемещения
+//    String(String&& other);               // конструктор перемещения
 
     ~String();                            // деструктор
 
@@ -19,7 +19,7 @@ public:
     int64_t size();                      // функция возвращ. размер строки
 
     String& append(const String& other);    // функция копирования в строку реального объекта
-    String& append(String&& other);        // функция копирования в строку временных объектов
+//    String& append(String&& other);        // функция копирования в строку временных объектов
 
 private:
     char*   _ptr;                   // данные (строка)
