@@ -16,7 +16,7 @@ int main()
     std::cout << "oblect 3 : " << object_3.c_str() << std::endl;
 
     object_3.append(object_2);                                         // добавляем в объект-3 новую информацию (выделяем память)
-    std::cout << "oblect 3 : " << object_3.c_str() << std::endl;
+    std::cout << "oblect 3 updated obj2 : " << object_3.c_str() << std::endl;
 
     My::String object_4(object_2);                                    //создаем строку объект-4 (копирование без копирования)
     std::cout << "oblect 4 : " << object_4.c_str() << std::endl;
@@ -27,7 +27,7 @@ int main()
 
 
         object_3.append("123 ").append("123");                                         // добавляем в объект-3 новую информацию (выделяем память)
-        std::cout << "oblect 3-app-4-4 : " << object_3.c_str() << std::endl;
+        std::cout << "oblect 3-app-123-123 : " << object_3.c_str() << std::endl;
 
 
         std::cout << "oblect 4 : " << object_4.c_str() << std::endl;

@@ -41,42 +41,31 @@ String::String(const String& other)        // конструктор копир�
 {
     std::cout << "String::String(const String& other)  - konstructor copy-rowaniya" << std::endl;
 
-    if (other._ptr) //&& other._is_copy == false)                 // если не копия - делаем копию
-    {
-        _ptr = other._ptr;
-        _size = other._size;
-        _copasity = other._copasity;
-      //  _is_copy = true;
-         std::cout << "_is_copy = " << _is_copy << std::endl;
-    }
+        other._is_copy = true;                 // новая строка тоже копия
+        std::cout << "_is_copy = " << _is_copy << std::endl;
 
-//    if (other._ptr && other._is_copy)                // если копия уже есть
-//    {
-//        _ptr = other._ptr;
-//        _size = other._size;
-//        _copasity = other._copasity;
-//        _is_copy = false;
-//        std::cout << "_is_copy = " << _is_copy << std::endl;
-//    }
 }
 
-//String::String(String&& other)           // конструктор перемещения
-////    : _ptr(other._ptr)
-////    , _size(other._size)
-////    , _copasity(other._copasity)
-////    , _is_copy (false)
-////{
-////    std::cout << "String::String(String&& other)  - konstructor move" << std::endl;
-////
-////    other._ptr = nullptr;
-////    other._size = 0;
-////    other._copasity = 0;
-//}
+String::String(String&& other)           // конструктор перемещения
+    : _ptr(other._ptr)
+    , _size(other._size)
+    , _copasity(other._copasity)
+    , _is_copy (false)
+{
+    std::cout << "String::String(String&& other)  - konstructor move" << std::endl;
+
+    other._ptr = nullptr;
+    other._size = 0;
+    other._copasity = 0;
+}
 
 String::~String()
 {
     std::cout << "String::~String()" << std::endl;
-    delete [] _ptr;
+    if (!_is_copy)
+    {
+        delete [] _ptr;
+    }
 }
 
 const char* String::c_str()
@@ -96,6 +85,15 @@ String& String::append(const String& other)                       // метод 
     if (!other._ptr)
         return *this;
 
+    if (_is_copy && _ptr)
+    {
+        std::cout << " new memory ready" << std::endl;            // выделяем память
+        char* tmp = new char[_copasity + 1]{};
+        strncpy(tmp, _ptr, _copasity);
+        _ptr = tmp;
+        _is_copy = false;
+    }
+
     if (_copasity < (other._size + _size))           // если новые данные не влезают в старую строку
     {
         _copasity = (other._size + _size) * 2;
@@ -105,32 +103,23 @@ String& String::append(const String& other)                       // метод 
         _ptr = tmp;
     }
 
-    if (other._is_copy == true)
-    {    My::String & another = const_cast < My::String&> (other);
-
-         std::cout << " new memory ready" << std::endl;            // выделяем память
-         _ptr = new char[_copasity + 1]{};
-         strncpy(_ptr, another._ptr, _copasity);
-         another._is_copy = false;
-    }
-
     strncat(_ptr, other._ptr, _copasity - _size);      // копипаста новых данных в конец старой строки
     _size += other._size;
 
     return *this;
 }
 
-//String& String::append(String&& other)                        // метод класса перемещение
-//{
-//    std::cout << "String::append(String&& other) - metod move" << std::endl;
-//
-//    append(other);
-//    other._ptr = nullptr;
-//    other._size = 0;
-//    other._copasity = 0;
-//
-//    return *this;
-//}
+String& String::append(String&& other)                        // метод класса перемещение
+{
+    std::cout << "String::append(String&& other) - metod move" << std::endl;
+
+    append(other);
+    other._ptr = nullptr;
+    other._size = 0;
+    other._copasity = 0;
+
+    return *this;
+}
 
 } // My
 
