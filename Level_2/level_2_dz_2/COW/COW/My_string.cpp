@@ -6,7 +6,7 @@ using namespace std;
 
 namespace My
 {
-String::String()                                // конструктор по умолчанию
+String::String()                                 // конструктор по умолчанию
     : _ptr(nullptr)
     , _size(0)
     , _copasity(0)
@@ -125,6 +125,15 @@ String& String::append(String&& other)                        // метод кл
         other._copasity = 0;
         other._is_copy = false;
     }
+
+    if(other._is_copy == false)
+    {
+        other._ptr = nullptr;
+        other._size = 0;
+        other._copasity = 0;
+        //other._is_copy = false;
+    }
+
     return *this;
 }
 }
