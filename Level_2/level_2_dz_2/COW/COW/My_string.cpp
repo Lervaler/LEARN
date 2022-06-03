@@ -11,8 +11,10 @@ String::String()                                 // конструктор по 
     , _size(0)
     , _copasity(0)
     , _is_copy (false)
+    , count (0)
 {
     std::cout << "String::String() - konstructor default" << std::endl;
+    ++count;
 }
 
 String::String(const char* str)              // конструктор создания строки
@@ -20,15 +22,18 @@ String::String(const char* str)              // конструктор созд�
     , _size(0)
     , _copasity(0)
     , _is_copy (false)
+    , count (0)
 {
     std::cout << "String::String(const char* str) - konstructor create stroki" << std::endl;
     if (str == nullptr)
-        return;
+      {  ++count;
+        return;}
 
     _size = strlen(str);
     _copasity = _size * 2;
     _ptr = new char[_copasity + 1]{};
     strncpy(_ptr, str, _copasity);
+    ++count;
     std::cout << "                      OPEN MEMORY " <<static_cast<void*>(_ptr) <<std::endl;
 }
 
@@ -37,11 +42,12 @@ String::String(const String& other)        // конструктор копир�
     , _size(other._size)
     , _copasity(other._copasity)
     , _is_copy (true)
+    , count (other.count)
 {
     std::cout << "String::String(const String& other)  - konstructor copy-rowaniya" << std::endl;
-    if (other._is_copy == false)
-     {_is_copy = false;}
+
     other._is_copy = true;                 // создаваемая строка это копия
+    --other.count;
 }
 
 String::String(String&& other)           // конструктор перемещения
@@ -49,12 +55,14 @@ String::String(String&& other)           // конструктор переме�
     , _size(other._size)
     , _copasity(other._copasity)
     , _is_copy (other._is_copy)
+    , count (other.count)
 {
     std::cout << "String::String(String&& other)  - konstructor move" << std::endl;
     other._ptr = nullptr;
     other._size = 0;
     other._copasity = 0;
     other._is_copy = false;
+    other.count = 0;
 }
 
 String::~String()
@@ -64,6 +72,12 @@ String::~String()
     {
         delete [] _ptr;
         std::cout << "                                                           DELETE MEMORY BY DESTCUCT " << static_cast<void*>(_ptr)<< std::endl;
+    }
+
+    if (_is_copy && count >0)
+    {
+        delete [] _ptr;
+        std::cout << "                                                          DELETE by konstructor " << static_cast<void*>(_ptr)<< std::endl;
     }
 }
 
@@ -84,16 +98,17 @@ String& String::append(const String& other)                       // метод 
     if (!other._ptr)
         return *this;
 
-    if (_is_copy && _ptr)
+    if (_is_copy && other._ptr)
     {
         char* tmp = new char[_copasity + 1]{};
         strncpy(tmp, _ptr, _copasity);
         _ptr = tmp;
         _is_copy = false;
+        ++count;
         std::cout << "                      OPEN MEMORY " <<static_cast<void*>(_ptr) <<std::endl;
     }
 
-    if (_copasity < (other._size + _size) && _ptr)           // если новые данные не влезают в старую строку
+    if (_copasity < (other._size + _size) && other._ptr)           // если новые данные не влезают в старую строку
     {
         _copasity = (other._size + _size) * 2;
         char* tmp = new char[_copasity + 1]{};
@@ -105,7 +120,7 @@ String& String::append(const String& other)                       // метод 
         _ptr = tmp;
     }
 
-    if (_ptr)
+    if (other._ptr)
     {
         strncat(_ptr, other._ptr, _copasity - _size);      // копипаста новых данных в конец старой строки
         _size += other._size;
@@ -118,22 +133,23 @@ String& String::append(String&& other)                        // метод кл
 {
     std::cout << "String::append(String&& other) - metod move" << std::endl;
     append(other);
-    if(other._is_copy == true)
+    if(other._is_copy)
     {
         other._ptr = nullptr;
         other._size = 0;
         other._copasity = 0;
         other._is_copy = false;
+        other.count = 0;
     }
 
-    if(other._is_copy == false)
+    if(!_is_copy)
     {
-        other._ptr = nullptr;
-        other._size = 0;
-        other._copasity = 0;
-        //other._is_copy = false;
+       // other._ptr = nullptr;
+       // other._size = 0;
+       // other._copasity = 0;
+       // other._is_copy = false;
+        other.count = 1;
     }
-
     return *this;
 }
 }
