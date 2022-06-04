@@ -26,6 +26,7 @@ private:
     int64_t _size;                  // размер
     int64_t _copasity;              // вместимость
     mutable bool _is_copy;                  // флаг копии
+    mutable int _count;              // подсчет копий
 };
 }
 #endif // MY_STRING_H
