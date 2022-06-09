@@ -17,11 +17,11 @@ int main()
     path += book;
 
     std::clock_t clock_1 = std::clock();
-
     std::unordered_map<std::string, int> count_map = by_map(path);
-
     std::clock_t clock_2 = std::clock();
     std::cout<< "time spend: "<< 1'000'000*(clock_2 - clock_1)/CLOCKS_PER_SEC << "ms"<<std::endl;
+
+
 
     std::cout <<"Enter word for search: ";
     std::string word;
