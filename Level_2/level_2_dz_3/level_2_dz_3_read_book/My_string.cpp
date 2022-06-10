@@ -96,11 +96,8 @@ String& String::append(const String& other)                       // метод 
         _ptr = tmp;
     }
 
-    if (other._ptr)
-    {
         strncat(_ptr, other._ptr, _copasity - _size);      // копипаста новых данных в конец старой строки
         _size += other._size;
-    }
 
     return *this;
 }

@@ -2,6 +2,7 @@
 #define MY_STRING_H
 
 #include <cinttypes>
+#include<string>
 
 namespace My
 {

@@ -17,7 +17,5 @@ void search (const std::string& word, std::unordered_map<std::string, int>& coun
 
      }
     std::clock_t clock_2 = std::clock();
-//    std::cout<< "time spend for search: "<< 1'000'000*(clock_2 - clock_1)/CLOCKS_PER_SEC <<std::endl;
     std::cout << "number of times in book: "<< key << " / time for search: " <<1'000'000*(clock_2 - clock_1)/CLOCKS_PER_SEC << std::endl;
- //return std::cout << key << " / time: " <<1'000'000*(clock_2 - clock_1)/CLOCKS_PER_SEC << std::endl;
 }

@@ -8,7 +8,7 @@ std::unordered_map<std::string, int> by_map (std::string path)
     std::string word;
     std::unordered_map<std::string, int> count_map;
     count_map.reserve(1'000'000);
-    while(file)
+    while(!file.eof())
     {
         file >> word;
         std::string new_word = convert_word(word);
