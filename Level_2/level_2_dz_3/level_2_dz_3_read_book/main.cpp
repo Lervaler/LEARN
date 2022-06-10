@@ -43,12 +43,9 @@ int main()
    {
        file >> tmp;
        tmp = convert_word(tmp);
-       word.append(tmp.data());
-       std::cout << word.c_str() << std::endl;
+       word.append(tmp.data()).append(" ");
     }
-
-
-
+       std::cout << word.c_str() << std::endl;
 
     return 0;
 }
