@@ -72,22 +72,28 @@ String::~String()
 
  String& String::operator =(const String& other)   // оператор присваивания копирования
 {
-     delete [] _ptr;        std::cout << "                                                          DELETE by konstructor " << static_cast<void*>(_ptr)<< std::endl;
-     _size = 0;
-     _copasity = 0;
-     delete _count_ref;
+    if(this == &other)
+    return *this;
 
-     _ptr = other._ptr;
-     _size = other._size;
-     _copasity = other._copasity;
-     _count_ref = other._count_ref;
+    delete [] _ptr;        std::cout << "                                                          DELETE by konstructor " << static_cast<void*>(_ptr)<< std::endl;
+    _size = 0;
+    _copasity = 0;
+    delete _count_ref;
 
- }
+    _ptr = other._ptr;
+    _size = other._size;
+    _copasity = other._copasity;
+    _count_ref = other._count_ref;
+
+    return *this;
+}
 
 String& String::operator =(String&& other)       // оператор присваивания перемещения
 {
-    delete [] _ptr;         std::cout << "                                                          DELETE by konstructor " << static_cast<void*>(_ptr)<< std::endl;
+    if(this == &other)
+    return *this;
 
+    delete [] _ptr;         std::cout << "                                                          DELETE by konstructor " << static_cast<void*>(_ptr)<< std::endl;
     _size = 0;
     _copasity = 0;
     delete _count_ref;
@@ -101,6 +107,8 @@ String& String::operator =(String&& other)       // оператор присв�
     other._size =0;
     other._copasity = 0;
     --other._count_ref;
+
+    return *this;
 }
 
 const char* String::c_str()
