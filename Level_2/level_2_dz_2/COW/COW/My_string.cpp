@@ -62,7 +62,7 @@ String::String(String&& other)           // конструктор переме�
 String::~String()
 {
     std::cout << "String::~String()" << std::endl;
-    if (!--_count_ref->count )
+    if (!--_count_ref->count)
     {
         delete [] _ptr;
         delete _count_ref;
@@ -131,17 +131,18 @@ String& String::append(const String& other)                       // метод 
     if (_copasity < (other._size + _size) || _count_ref->count != 1)
     {
         _copasity = _copasity + other._copasity;
-        char* tmp = new char[_copasity]{};
+        char* tmp = new char[_copasity]{};    std::cout << "                      OPEN MEMORY " <<static_cast<void*>(tmp) <<std::endl;
         strncpy(tmp, _ptr, _copasity);
 
         if (_count_ref->count == 1)
         {
-            delete[] _ptr;
+            delete[] _ptr;   std::cout << "                                                          DELETE by app " << static_cast<void*>(_ptr)<< std::endl;
         }
         else
         {
             --_count_ref->count;
             _count_ref = new Counter();
+            _count_ref->count = 1;          // новый счетчик = 1 (чтобы удалилась память в деструкторе)
         }
         _ptr = tmp;
     }
@@ -160,25 +161,20 @@ String& String::append(const String& other)                       // метод 
 //    std::cout << "String::append(String&& other) - metod move" << std::endl;
 //    append(other);
 //
-//        other._ptr = nullptr;
-//        other._size = 0;
-//        other._copasity = 0;
-//        --other._count_ref->count;
+////   delete [] other._ptr;         std::cout << "                                                          DELETE by konstructor " << static_cast<void*>(_ptr)<< std::endl;
+////   other._size = 0;
+////   other._copasity = 0;
+////   delete other._count_ref;
+////
+////   _ptr = other._ptr;
+////   _size = other._size;
+////   _copasity = other._copasity;
+////   _count_ref = other._count_ref;
+////
+////   other._ptr = nullptr;
+////   other._size =0;
+////   other._copasity = 0;
+////   --other._count_ref;
 //    return *this;
 //}
 }
-// My
-
-/*
-class MyString
-{
-public:
-    String();// конструктор по умолчанию
-    String(const char* str);// конструктор добавления новой строки к имеющейся
-    String(const String& other);// конструктор копирования
-    String(String&& other); // конструктор перемещения
-
-    String& append(const String& other); метод
-    String& String::append(String&& other) метод
-};
-*/
