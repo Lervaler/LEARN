@@ -22,7 +22,7 @@ public:
     int64_t size();                      // функция возвращ. размер строки
 
     String& append(const String& other);    // функция копирования в строку реального объекта
-//    String& append(String&& other);        // функция копирования в строку временных объектов
+    String& append(String&& other);        // функция копирования в строку временных объектов
 
 private:
     struct Counter
