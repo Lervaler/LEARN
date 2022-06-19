@@ -1,7 +1,7 @@
 #include "My_string.h"
 #include <iostream>
 #include <cstring>
-
+#include <string.h>
 using namespace std;
 
 namespace My
@@ -152,6 +152,30 @@ String& String::operator =(String&& other)       // оператор присв�
     return *this;
 }
 
+String& String::operator +=(const char* ch)
+{
+    if(!ch)
+    return *this;
+
+    if (this->_count_ref->count != 1)
+    {
+        char* tmp = new char[_copasity]{};    std::cout << "                      OPEN MEMORY " <<static_cast<void*>(tmp) <<std::endl;
+        strncpy(tmp, _ptr, _copasity);
+        --_count_ref->count;
+        _count_ref = new Counter();
+        _count_ref->count = 1;          // новый счетчик = 1 (чтобы удалилась память в деструкторе)
+        _ptr = tmp;
+    }
+
+    strncat(_ptr, ch, 1);
+    _copasity = _copasity - 1;
+    _size = _size + 1;
+
+    return *this;
+}
+
+
+
 const char* String::c_str()
 {
     return _ptr;
@@ -161,6 +185,12 @@ int64_t String::size()
 {
     return _size;
 }
+
+const char* String::end_str()
+{
+    return _ptr + (_copasity - _size);
+}
+
 
 String& String::append(const String& other)                       // метод класса копирование
 {
