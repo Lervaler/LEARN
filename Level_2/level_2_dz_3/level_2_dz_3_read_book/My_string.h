@@ -1,8 +1,6 @@
 #ifndef MY_STRING_H
 #define MY_STRING_H
-
 #include <cinttypes>
-#include<string>
 
 namespace My
 {
@@ -16,8 +14,13 @@ public:
 
     ~String();                            // деструктор
 
-    const char* c_str();                  // функция возвр. указатель на начало строки (выведет строку на экран)
+    String& operator =(const String&);   // оператор присваивания копирования
+    String& operator =(String&&);       // оператор присваивания перемещения
+    String& operator +=(const char& ch);
+
+    const char* begin();                  // функция возвр. указатель на начало строки (выведет строку на экран)
     int64_t size();                      // функция возвращ. размер строки
+    const char* end();
 
     String& append(const String& other);    // функция копирования в строку реального объекта
     String& append(String&& other);        // функция копирования в строку временных объектов
@@ -31,7 +34,7 @@ private:
     char*   _ptr;                   // данные (строка)
     int64_t _size;                  // размер
     int64_t _copasity;              // вместимость
-    mutable Counter* _count_ref;    // подсчет копий
+    mutable Counter* _count_ref;              // подсчет копий
 };
 }
 

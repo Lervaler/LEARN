@@ -4,17 +4,14 @@
 
 My::String convert_word_my (My::String& word)
 {
-    My::String new_word(" ");
-    const char* ch = 0;
-    for (char i = 0; i < word.size(); ++i)
-       {
-        ch = word.c_str()+i;
-           if (std::isalpha(*ch) || std::isdigit(*ch))
-           {
-               std::toupper(*ch);
-               new_word.append(ch);
-           }
-       }
+    My::String new_word {""};
 
-    return new_word;
+    for (const char& ch: word)
+    {
+        if(std::isalpha(ch) || std::isdigit(ch) || ch == ' ')
+            new_word += std::toupper(ch);
+    }
+    word = new_word;
+
+    return word;
 }

@@ -8,6 +8,7 @@
 #include "search.h"
 #include "My_string.h"
 #include "convert_word_my.h"
+#include <string.h>
 
 #include <stdio.h>
 
@@ -32,20 +33,22 @@ int main()
 //     search (word, count_map);
 
 // пользовательский тип:
-
     My::String book("D:/01_Projects/HomeWork/LEARN/LEARN/Level_2/level_2_dz_3/It_1.txt");
-    std::ifstream file( book.c_str());
+    std::ifstream file(book.begin());
 
     std::string tmp;
-    My::String word(" ");
+    My::String word {""};
+
 
    while(!file.eof())
    {
        file >> tmp;
-       tmp = convert_word(tmp);
        word.append(tmp.data()).append(" ");
     }
-       std::cout << word.c_str() << std::endl;
+
+   convert_word_my(word);
+
+  std::cout << word.begin() << std::endl;
 
     return 0;
 }

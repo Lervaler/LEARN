@@ -56,14 +56,126 @@ String::String(String&& other)           // конструктор переме�
 
 String::~String()
 {
-    if (!--_count_ref->count )
+    if (!--_count_ref->count)
     {
         delete [] _ptr;
         delete _count_ref;
     }
 }
 
-const char* String::c_str()
+String& String::operator =(const String& other)   // оператор присваивания копирования
+{
+    if(this == &other)
+    return *this;
+
+    if (_count_ref->count != 1)
+    {
+        _copasity = _copasity + other._copasity;
+        char* tmp = new char[_copasity]{};
+        strncpy(tmp, _ptr, _copasity);
+
+        if (_count_ref->count == 1)
+        {
+            delete[] _ptr;
+        }
+        else
+        {
+            --_count_ref->count;
+            _count_ref = new Counter();
+            _count_ref->count = 1;          // новый счетчик = 1 (чтобы удалилась память в деструкторе)
+        }
+        _ptr = tmp;
+     };
+
+        delete [] _ptr;
+        _size = 0;
+        _copasity = 0;
+        delete _count_ref;
+
+        _ptr = new char[other._copasity+ 1];
+        _size = other._size;
+        _copasity = other._copasity;
+
+         strcpy(_ptr, other._ptr);
+        _count_ref = new Counter();
+         ++_count_ref->count;
+
+    return *this;
+}
+
+String& String::operator =(String&& other)       // оператор присваивания перемещения
+{
+    if(this == &other)
+    return *this;
+
+    if (_count_ref->count != 1)
+    {
+        _copasity = _copasity + other._copasity;
+        char* tmp = new char[_copasity]{};
+        strncpy(tmp, _ptr, _copasity);
+
+        if (_count_ref->count == 1)
+        {
+            delete[] _ptr;
+        }
+        else
+        {
+            --_count_ref->count;
+            _count_ref = new Counter();
+            _count_ref->count = 1;          // новый счетчик = 1 (чтобы удалилась память в деструкторе)
+        }
+        _ptr = tmp;
+     };
+
+    delete [] _ptr;
+    _size = 0;
+    _copasity = 0;
+    delete _count_ref;
+
+    _ptr = other._ptr;
+    _size = other._size;
+    _copasity = other._copasity;
+    _count_ref = other._count_ref;
+
+    other._ptr = nullptr;
+    other._size =0;
+    other._copasity = 0;
+    ++other._count_ref;
+
+    return *this;
+}
+
+String& String::operator +=(const char& ch)
+{
+    if(!ch)
+    return *this;
+
+    if (this->_count_ref->count != 1)
+    {
+        char* tmp = new char[_copasity]{};    std::cout << "                      OPEN MEMORY " <<static_cast<void*>(tmp) <<std::endl;
+        strncpy(tmp, _ptr, _copasity);
+        --_count_ref->count;
+        _count_ref = new Counter();
+        _count_ref->count = 1;          // новый счетчик = 1 (чтобы удалилась память в деструкторе)
+        _ptr = tmp;
+    }
+
+    if (_copasity < ch + _size)
+    {
+        _copasity = _copasity + ch +1;
+        char* tmp = new char[_copasity]{};
+        strncpy(tmp, _ptr, _copasity);
+        delete[] _ptr;
+        _ptr = tmp;
+    }
+    strncat(_ptr, &ch, 1);
+    _copasity = _copasity - 1;
+    _size = _size + 1;
+
+    return *this;
+}
+
+const char* String::begin()
 {
     return _ptr;
 }
@@ -73,8 +185,14 @@ int64_t String::size()
     return _size;
 }
 
+const char* String::end()
+{
+    return _ptr + _size + 1;
+}
+
 String& String::append(const String& other)                       // метод класса копирование
 {
+
     if (!other._ptr)
         return *this;
 
@@ -92,12 +210,16 @@ String& String::append(const String& other)                       // метод 
         {
             --_count_ref->count;
             _count_ref = new Counter();
+            _count_ref->count = 1;          // новый счетчик = 1 (чтобы удалилась память в деструкторе)
         }
         _ptr = tmp;
     }
 
+    if (other._ptr)
+    {
         strncat(_ptr, other._ptr, _copasity - _size);      // копипаста новых данных в конец старой строки
         _size += other._size;
+    }
 
     return *this;
 }
@@ -105,10 +227,6 @@ String& String::append(const String& other)                       // метод 
 String& String::append(String&& other)                        // метод класса для временного объекта - перемещение
 {
     append(other);
-    other._ptr = nullptr;
-    other._size = 0;
-    other._copasity = 0;
-    --other._count_ref->count;
     return *this;
 }
 }
