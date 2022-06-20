@@ -152,7 +152,7 @@ String& String::operator =(String&& other)       // оператор присв�
     return *this;
 }
 
-String& String::operator +=(const char* ch)
+String& String::operator +=(const char& ch)
 {
     if(!ch)
     return *this;
@@ -167,16 +167,28 @@ String& String::operator +=(const char* ch)
         _ptr = tmp;
     }
 
-    strncat(_ptr, ch, 1);
+
+    if (_copasity < ch + _size)
+    {
+        _copasity = _copasity + ch +1;
+        char* tmp = new char[_copasity]{};
+        strncpy(tmp, _ptr, _copasity);
+        delete[] _ptr;
+        _ptr = tmp;
+    }
+    strncat(_ptr, &ch, 1);
     _copasity = _copasity - 1;
     _size = _size + 1;
+
+    return *this;
+
 
     return *this;
 }
 
 
 
-const char* String::c_str()
+const char* String::begin()
 {
     return _ptr;
 }
@@ -186,9 +198,9 @@ int64_t String::size()
     return _size;
 }
 
-const char* String::end_str()
+const char* String::end()
 {
-    return _ptr + (_copasity - _size);
+    return _ptr + _size + 1;
 }
 
 

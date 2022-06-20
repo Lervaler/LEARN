@@ -6,29 +6,29 @@ using namespace std;
 
 int main()
 {
-    My::String object_1("stroka ");                                    // создаем строку объект-1
-    std::cout << "oblect 1 : " << object_1.c_str() << std::endl;
+    My::String object_1("stroka ");   std::cout << "oblect 1 : " << object_1.begin() << std::endl;
 
-   My::String object_2(" privet ");
+   My::String object_2(" privet ");   std::cout << "oblect 2 : " << object_2.begin() << std::endl;
+//
+//   My::String object_3(object_1);    std::cout << "oblect 3 = obl 1: " << object_3.c_str() << std::endl;
+//
+//   object_1 = "nanana";     std::cout << "obj 1 = obj 2 : " << object_1.c_str() << std::endl;
+//
+//   object_2 = object_3; std::cout << "obj 2 = obj 3 : " << object_2.c_str() << std::endl;
+//
+//   std::cout << "oblect 1 : " << object_1.c_str() << std::endl;
+//   std::cout << "oblect 2 : " << object_2.c_str() << std::endl;
+//   std::cout << "oblect 3 : " << object_3.c_str() << std::endl;
 
-    object_1 = object_2;
-    object_1.append(object_2);                                         // добавляем в объект-3 новую информацию (выделяем память)
+//    std::cout << "oblect 1 : " << object_1.end_str() << std::endl;
 
-    std::cout << "oblect 1 : " << object_1.c_str() << std::endl;
-
+//    while (!object_1.end_str())
+//    {
+//        std::cout << "oblect 1 : " << object_1.c_str() << std::endl;
+//    }
+char a = 'f';
+    object_1 += a;
+    std::cout << "oblect 1 : " << object_1.begin() << std::endl;
 
         return 0;
 }
-/*
-class MyString
-{
-public:
-    String();// конструктор по умолчанию
-    String(const char* str);// конструктор добавления новой строки к имеющейся
-    String(const String& other);// конструктор копирования
-    String(String&& other); // конструктор перемещения
-
-    String& append(const String& other); метод
-    String& String::append(String&& other) метод
-};
-*/

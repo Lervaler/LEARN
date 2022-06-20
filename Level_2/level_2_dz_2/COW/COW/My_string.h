@@ -17,11 +17,11 @@ public:
 
     String& operator =(const String&);   // оператор присваивания копирования
     String& operator =(String&&);       // оператор присваивания перемещения
-    String& operator +=(const char * ch);
+    String& operator +=(const char& ch);
 
-    const char* c_str();                  // функция возвр. указатель на начало строки (выведет строку на экран)
+    const char* begin();                  // функция возвр. указатель на начало строки (выведет строку на экран)
     int64_t size();                      // функция возвращ. размер строки
-    const char* end_str();
+    const char* end();
 
     String& append(const String& other);    // функция копирования в строку реального объекта
     String& append(String&& other);        // функция копирования в строку временных объектов
