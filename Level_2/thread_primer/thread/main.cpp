@@ -10,9 +10,8 @@ void fun1()
 {
     for(int i = 0; i <100; ++i)
     {
-        Mdata.lock();
+        std::lock_guard<std::mutex> lock_1(Mdata);
         cout<< "111" << "111" << "111"<< endl;
-        Mdata.unlock();
     }
 }
 
