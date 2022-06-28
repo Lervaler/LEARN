@@ -1,13 +1,18 @@
 #include <iostream>
 #include <thread>
+#include <mutex>
 
 using namespace std;
+
+mutex Mdata;
 
 void fun1()
 {
     for(int i = 0; i <100; ++i)
     {
+        Mdata.lock();
         cout<< "111" << "111" << "111"<< endl;
+        Mdata.unlock();
     }
 }
 
@@ -15,7 +20,9 @@ void fun2()
 {
     for(int i = 0; i <100; ++i)
     {
+        Mdata.lock();
         cout<< "222" << "222" << "222"<< endl;
+        Mdata.unlock();
     }
 }
 int main()
