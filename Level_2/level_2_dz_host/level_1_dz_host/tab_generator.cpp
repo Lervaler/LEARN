@@ -30,7 +30,7 @@ void Tab_Generator::Gen_file(const std::string &path)
 
         Tab tab;
 
-        std::vector <Tab> a (100);
+        std::vector <Tab> a (1000*_host_numbers);
 
         std::ofstream file_1;
         file_1.open(path);
@@ -38,11 +38,11 @@ void Tab_Generator::Gen_file(const std::string &path)
         file_1 <<" | " << std::setw( 11 )<<"host_name "<<" | "<< std::setw( 11 )<<"time "<<" | "<< std::setw( 11 )<<"bites "<<" | "<<std::setw( 10 )<<"operation "<<" | ";
         file_1 <<std::endl <<" |"<<"_____________|_____________|_____________|____________"<<"|"<<std::endl;
 
-        std::vector <std::vector <Tab>> my_tab (100);
+        std::vector <std::vector <Tab>> my_tab (1000*_host_numbers);
 
         for (int i = 1; i <=_host_numbers; ++i)
         {
-            for (int j = 1; j < 100; ++j)
+            for (int j = 1; j <= 1000; ++j)
             {
                 a.at(j).host = "host_" + std::to_string(i);
                 file_1 <<" | " <<std::setw( 11 )<<a.at(j).host<<" | " ;
