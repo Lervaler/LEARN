@@ -6,9 +6,9 @@
 #include <iterator>
 
 
-Tab_Generator::Tab_Generator(int&& host_numbers, int&& time_start)
+Tab_Generator::Tab_Generator(int&& host_numbers, int&& host_num_for_one)
     : _host_numbers(host_numbers)
-    , _time_start(time_start)
+    , _host_num_for_one(host_num_for_one)
 {
     if (host_numbers == 0 || host_numbers < 0 )
     {
@@ -30,7 +30,7 @@ void Tab_Generator::Gen_file(const std::string &path)
 
         Tab tab;
 
-        std::vector <Tab> a (1000*_host_numbers);
+        std::vector <Tab> a (_host_num_for_one*_host_numbers);
 
         std::ofstream file_1;
         file_1.open(path);
@@ -38,19 +38,19 @@ void Tab_Generator::Gen_file(const std::string &path)
         file_1 <<" | " << std::setw( 11 )<<"host_name "<<" | "<< std::setw( 11 )<<"time "<<" | "<< std::setw( 11 )<<"bites "<<" | "<<std::setw( 10 )<<"operation "<<" | ";
         file_1 <<std::endl <<" |"<<"_____________|_____________|_____________|____________"<<"|"<<std::endl;
 
-        std::vector <std::vector <Tab>> my_tab (1000*_host_numbers);
+        std::vector <std::vector <Tab>> my_tab (_host_num_for_one*_host_numbers);
 
-        for (int i = 1; i <=_host_numbers; ++i)
+        for (int i = 1; i <=_host_num_for_one; ++i)
         {
-            for (int j = 1; j <= 1000; ++j)
+            for (int j = 1; j <= _host_numbers; ++j)
             {
                 a.at(j).host = "host_" + std::to_string(i);
                 file_1 <<" | " <<std::setw( 11 )<<a.at(j).host<<" | " ;
 
-                a.at(j).time += _time_start + 300*j +(rand() % 11 - 5);
+                a.at(j).time = a.at(j - 1).time + 300*j +(rand() % 11 - 5);
                 file_1 <<std::setw( 11 )<<a.at(j).time<<" | " ;
 
-                a.at(j).data += 12 +12*j+ (rand() % 11 - 5);
+                a.at(j).data = a.at(j - 1).data +12 +12*j+ (rand() % 11 - 5);
                 file_1 <<std::setw( 11 )<<a.at(j).data<<" | " ;
 
                 a.at(j).count = a.at(j - 1).count +(1+rand() % 5);
@@ -62,9 +62,7 @@ void Tab_Generator::Gen_file(const std::string &path)
                 file_1 << std::endl;
             }
         }
-
-        file_1.close();
-        std::cout <<"tab yes"<< std::endl;
+    std::cout<< "tab ready\n";
     }
     else std::cout<< "error";
 };
