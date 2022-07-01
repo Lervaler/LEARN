@@ -12,44 +12,51 @@ Proizvodn::Proizvodn (int&& host_number)
         std::cout<<"error - no host number ";
         return;
     }
-
-        std::cout<<"sucsess host num ";
+    std::cout<<"sucsess host num ";
 };
 
 std::string Proizvodn::tab_clean(const std::string &path)
 {
-        std::vector<std::string> new_word;
-        std::ifstream file(path);
-        std::string word;
+    std::vector<std::string> new_word;
+    std::ifstream file(path);
+    std::string word;
 
-        while(!file.eof())
+    while(!file.eof())
+    {
+        file >> word;
+        if (word != " " && word != "|" && word != "_"&&
+            word != "|_____________|_____________|_____________|____________|" &&
+            word != "______________________________________________________" &&
+            word != "operation" &&
+            word != "host_name" &&
+            word != "time" &&
+            word != "bites")
         {
-            file >> word;
-            if (word != " " && word != "|" && word != "_"&&
-                word != "|_____________|_____________|_____________|____________|" &&
-                word != "______________________________________________________" &&
-                word != "operation" &&
-                word != "host_name" &&
-                word != "time" &&
-                word != "bites")
-            {
-                new_word.push_back(word);
-                new_word.push_back(" ");
-            }
+            new_word.push_back(word);
+            new_word.push_back(" ");
         }
+    }
 
-            std::ofstream file_4;
-            file_4.open("D:/01_Projects/HomeWork/LEARN/LEARN/Level_2/level_2_dz_host/level_1_dz_host/two.txt");
-            std::copy(new_word.begin(), new_word.end(), std::ostream_iterator<std::string>(file_4));
-            file_4.close();
-            std::cout<<"table cleared "<< std::endl;
-            std::string new_path = "D:/01_Projects/HomeWork/LEARN/LEARN/Level_2/level_2_dz_host/level_1_dz_host/two.txt";
-            return new_path;
+    std::ofstream file_1; // сюда запишем очищенную таблицу
+    file_1.open("D:/01_Projects/HomeWork/LEARN/LEARN/Level_2/level_2_dz_host/level_1_dz_host/clear_tab.txt");
+    std::copy(new_word.begin(), new_word.end(), std::ostream_iterator<std::string>(file_1));
+    file_1.close();
+    std::cout<<"table cleared "<< std::endl;
+
+    std::string new_path = "D:/01_Projects/HomeWork/LEARN/LEARN/Level_2/level_2_dz_host/level_1_dz_host/clear_tab.txt";
+    return new_path;  // результат метода вернет новый путь к очищенной таблице
 
 }
 
 void Proizvodn::gen_tab_proizvodn(const std::string &path, const Proizvodn& other)
 {
+    std::ifstream myfile(path);  //открываем таблицу(очищенную)
+
+    if (!myfile)
+    {
+        std::cout << "error - no file\n";
+    }
+
     struct Tab_1
     {
         int data = 0;
@@ -57,15 +64,8 @@ void Proizvodn::gen_tab_proizvodn(const std::string &path, const Proizvodn& othe
         int time = 0;
         int count = 0;
     };
-
-    std::ifstream myfile(path);
-    if (!myfile)
-    {
-        std::cout << "error - no file\n";
-    }
-
     Tab_1 tab;
-    std::vector <Tab_1>info (4000000); // в инфо записываются данные из строки
+    std::vector <Tab_1>info (4000000); // в инфо записываются данные из строки по структуре
 
     for (int i = 0; myfile; ++i)
     {
@@ -76,14 +76,14 @@ void Proizvodn::gen_tab_proizvodn(const std::string &path, const Proizvodn& othe
     }
     myfile.close();
 
-    // считаем проивзодные
+    // считаем производные
 
      float q = 0;
      float w = 0;
      float e = 0;
 
     std::ofstream file_5;
-    file_5.open("D:/01_Projects/HomeWork/LEARN/LEARN/Level_2/level_2_dz_host/level_1_dz_host/proizvod.txt");
+    file_5.open("D:/01_Projects/HomeWork/LEARN/LEARN/Level_2/level_2_dz_host/level_1_dz_host/proizvod_for_one.txt");
     int host_num = 0;
     host_num = other._host_number;
 
@@ -105,5 +105,5 @@ void Proizvodn::gen_tab_proizvodn(const std::string &path, const Proizvodn& othe
     }
 
     file_5.close();
-    std::cout<<"sucsess pr ";
+    std::cout<<"sucsess pr for one ";
 }

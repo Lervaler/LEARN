@@ -40,14 +40,14 @@ void Tab_Generator::Gen_file(const std::string &path)
 
         std::vector <std::vector <Tab>> my_tab (_host_num_for_one*_host_numbers);
 
-        for (int i = 1; i <=_host_num_for_one; ++i)
+        for (int i = 1; i <=_host_numbers; ++i)
         {
-            for (int j = 1; j <= _host_numbers; ++j)
+            for (int j = 1; j <= _host_num_for_one; ++j)
             {
                 a.at(j).host = "host_" + std::to_string(i);
                 file_1 <<" | " <<std::setw( 11 )<<a.at(j).host<<" | " ;
 
-                a.at(j).time = a.at(j - 1).time + 300*j +(rand() % 11 - 5);
+                a.at(j).time = a.at(j - 1).time + 100*j +(rand() % 11 - 5);
                 file_1 <<std::setw( 11 )<<a.at(j).time<<" | " ;
 
                 a.at(j).data = a.at(j - 1).data +12 +12*j+ (rand() % 11 - 5);
