@@ -19,7 +19,10 @@ class Summ_Proizvodn
 {
 public:
     Summ_Proizvodn (int&& all_host_number, int&& host_num_for_one);
-    void gen_tab_summ_proizvodn(const std::string &path, const Summ_Proizvodn& other);
+    void gen_all_proizvodn(const std::string &path,
+                                const Summ_Proizvodn& other,
+                                const int time_start, const int time_end);
+//    void gen_tab_summ_proizvodn(std::vector<double> pro_host_other, const Summ_Proizvodn& other);
 
 private:
     int _all_host_number;
