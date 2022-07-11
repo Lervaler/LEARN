@@ -32,6 +32,10 @@ int main()
     {
         std::cout <<"cathed MyEx_1 DONE"<<std::endl;
     }
+    catch(...)
+    {
+        std::cout <<"cathed any DONE"<<std::endl;
+    }
     std::cout <<"DONE"<<std::endl;
 
     return 0;
