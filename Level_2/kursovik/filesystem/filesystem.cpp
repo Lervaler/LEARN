@@ -22,13 +22,10 @@ void FileSystem::create(uint64_t size)
     std::ofstream file_system(_name, std::ios::binary);
     file_system.write(reinterpret_cast<const char*>(&MAGIC_VALUE), sizeof(MAGIC_VALUE));
     file_system.write(reinterpret_cast<const char*>(&_size), sizeof(_size));
-    for(const auto& elem: _ptr)
-    {
-        file_system.write(reinterpret_cast<const char*>(&elem), sizeof(elem));
-    }
+    file_system.write(reinterpret_cast<const char*>(_ptr.data()), _ptr.size());
 }
 
-bool FileSystem::read() // пока пусто
+bool FileSystem::read()
 {
     std::ifstream file_system(_name, std::ios::binary);
     uint32_t read_magic_value;
@@ -38,14 +35,9 @@ bool FileSystem::read() // пока пусто
     {
         return false;
     }
-//    file_system >> _size;
     file_system.read(reinterpret_cast<char*>(&read_size), sizeof(read_size));
     _ptr.resize(read_size);
-    for(auto& elem: _ptr)
-    {
-//        file_system >> elem;
-        file_system.read(reinterpret_cast<char*>(&elem), sizeof(elem));
-    }
+    file_system.read(reinterpret_cast<char*>(_ptr.data()), _ptr.size());
     return true;
 }
 
