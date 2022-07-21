@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "../../filesystem.h"
+#include "../../file.h"
 
 #include <filesystem>
 #include <string>
@@ -33,3 +34,18 @@ TEST (Filesystem_test, read_test)
     EXPECT_TRUE( sys_2.read());
     sys_2.destroy();
 }
+
+TEST (Filesystem_test, file_create_test)
+{
+    static const std::string fs_name = "D:\\01_Projects\\HomeWork\\"
+                                       "LEARN\\LEARN\\Level_2\\kursovik\\filesystem\\tree.fs";
+    MyFileSystem::FileSystem sys_1(fs_name);
+    sys_1.create(4*1024);
+//    sys_1.create_file("hello");
+    sys_1.create_file("hello");
+//    EXPECT_EQ(data, "o");
+
+
+}
+
+
