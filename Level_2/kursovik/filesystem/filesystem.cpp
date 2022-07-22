@@ -19,7 +19,7 @@ void FileSystem::create(uint64_t size)
 {
     _size = size;
     _data.resize(_size);
-//    std::fill(_data.begin(), _data.end(), 0);
+//    std::fill(_data.begin(), _data.end(), 0);   // не работает из-за shared-ptr
 
     std::ofstream file_system(_name, std::ios::binary);
     file_system.write(reinterpret_cast<const char*>(&MAGIC_VALUE), sizeof(MAGIC_VALUE));
@@ -61,22 +61,19 @@ MyFileSystem::MyFile  FileSystem::create_file(std::string name_file)
           file._data_file.emplace_back(bs.to_ulong());
       }
 std::cout << file._data_file.data() <<std::endl;
+    file._size_file = sizeof(file._data_file.data());
 return file;
 
-//    _data.emplace_back(new MyFileSystem::MyFile(std::move(name_file), *this));
-//    _data.data();
-//    return _data.back();
-//    return _data.data();
 }
 
 void FileSystem::flush_file(const MyFile& file)
 {
-    std::ofstream file_system(this->_name, std::ios::binary);
+    std::ofstream file_system(_name, std::ios_base::in);
 
-//    file_system.write(reinterpret_cast<const char*>(&MAGIC_VALUE), sizeof(MAGIC_VALUE));
-//    file_system.write(reinterpret_cast<const char*>(&_size), sizeof(_size));
-     file_system.seekp(12, std::ios::beg);
-//    fseek(*file_system, 12, SEEK_SET);
+    file_system.seekp(12, std::ios::beg);
+
+    file_system.write(reinterpret_cast<const char*>(file._name_file.data()), file._name_file.size());
+//    file_system.write(reinterpret_cast<const char*>(file._size_file), sizeof(uint64_t));
     file_system.write(reinterpret_cast<const char*>(file._data_file.data()), file._data_file.size());
 }
 
