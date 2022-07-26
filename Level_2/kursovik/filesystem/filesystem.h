@@ -2,11 +2,13 @@
 #define FILESYSTEM_H
 
 #include "file.h"
+#include "filesystem_metadata.h"
 
 #include <cinttypes>
 #include <memory>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 namespace MyFileSystem
 {
@@ -15,23 +17,23 @@ class MyFile;
 class FileSystem
 {
 private:
-    static constexpr uint32_t MAGIC_VALUE = 785;
+
 
     std::string _name;
-    uint64_t _size;
-//    std::vector<uint8_t> _ptr; //для FAT талицы
-    std::vector<std::shared_ptr<MyFile>> _data; //для записи файлов
+    MetaData _meta_data;
 
+    std::vector<std::shared_ptr<MyFile>> _files; //для записи файлов
+
+    FileSystem(const std::string& name);
+    bool read();
 
 public:
-    FileSystem(const std::string& name);
 
-    void create(uint64_t size);
-    bool read();
+    static FileSystem create(uint64_t size, std::string name);
     void destroy();
 
-    MyFileSystem::MyFile  create_file(std::string name_file);
-    void flush_file(const MyFile& file);
+    std::shared_ptr<MyFile> create_file(std::string name_file);
+    void flush_file(const MyFileSystem::MyFile& file);
 
 };
 }

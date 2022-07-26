@@ -3,7 +3,9 @@
 #include <bitset>
 #include<cstring>
 
-MyFileSystem::MyFile::MyFile(std::string name_file, FileSystem& filesystem)
+namespace MyFileSystem {
+
+MyFile::MyFile(std::string name_file, FileSystem& filesystem)
     : _name_file(std::move(name_file))
     , _size_file(0)
     , _data_file(0)
@@ -21,7 +23,16 @@ MyFileSystem::MyFile::MyFile(std::string name_file, FileSystem& filesystem)
 //    other._data_file = str;
 //}
 
-void MyFileSystem::MyFile::flush()
+void MyFile::write(const void* data, size_t size)
+{
+    const size_t temp_size = _data_file.size();
+    _data_file.resize(temp_size + size);
+    memcpy(_data_file.data()+ temp_size, data, size);
+}
+
+void MyFile::flush()
 {
     filesystem.flush_file(*this);
+}
+
 }
