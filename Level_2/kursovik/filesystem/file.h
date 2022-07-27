@@ -26,7 +26,7 @@ private:
 public:
 //    void read(const MyFile& other);
 //    void write(std::string str);
-    void write(const void* data, size_t size);
+    void write(const std::string& data);
     void flush();
 
 };

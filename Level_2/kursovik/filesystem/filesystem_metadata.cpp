@@ -46,7 +46,7 @@ bool MetaData::write(std::ostream& steam)
     for (const auto& [key, value]: _files_offset)
     {
         size_t key_size = key.size();
-        steam.write(reinterpret_cast<const char*>(&key_size), sizeof(key_size));
+//        steam.write(reinterpret_cast<const char*>(&key_size), sizeof(key_size));
         steam.write(reinterpret_cast<const char*>(key.data()), key_size);
         steam.write(reinterpret_cast<const char*>(&value), sizeof(value));
     }
@@ -56,7 +56,6 @@ bool MetaData::write(std::ostream& steam)
 
 size_t MetaData::size() const
 {
-
 }
 
 }

@@ -3,6 +3,12 @@
 #include <bitset>
 #include<cstring>
 
+
+namespace
+{
+    constexpr size_t Max_size_of_file = 124;
+}
+
 namespace MyFileSystem {
 
 MyFile::MyFile(std::string name_file, FileSystem& filesystem)
@@ -12,22 +18,19 @@ MyFile::MyFile(std::string name_file, FileSystem& filesystem)
     , filesystem(filesystem)
 {}
 
-//void MyFileSystem::MyFile::read(const MyFile& other)
-//{
-//    std::cout <<"name of file: "<< other._name_file <<std::endl
-//              <<"file: "<< other._data_file <<std::endl;
-//}
-
-//void MyFileSystem::MyFile::write(MyFile& other, std::string str)
-//{
-//    other._data_file = str;
-//}
-
-void MyFile::write(const void* data, size_t size)
+void MyFile::write(const std::string& data)
 {
-    const size_t temp_size = _data_file.size();
-    _data_file.resize(temp_size + size);
-    memcpy(_data_file.data()+ temp_size, data, size);
+    if (sizeof(data) <= Max_size_of_file)
+    {
+        const size_t temp_size = _data_file.size();
+        _data_file.resize(temp_size + data.size());
+        if(_data_file.size()<=Max_size_of_file)
+        {
+            memcpy(_data_file.data() + temp_size, data.data(), data.size());
+        }
+        else throw std::exception{};
+    }
+    else throw std::exception{};
 }
 
 void MyFile::flush()

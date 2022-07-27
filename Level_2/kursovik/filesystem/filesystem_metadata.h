@@ -20,8 +20,6 @@ namespace MyFileSystem
         bool write(std::ostream& steam);
         size_t size() const;
     };
-
-
 }
 
 #endif // FILESYSTEM_METADATA_H

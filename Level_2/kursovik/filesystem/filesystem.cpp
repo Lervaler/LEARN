@@ -10,14 +10,13 @@
 
 namespace
 {
-    constexpr size_t Max_size_of_file = 1024;
+    constexpr size_t Max_size_of_file = 124;
 }
 
 namespace MyFileSystem
 {
 FileSystem::FileSystem(const std::string& name)
     : _name(name)
-//    , _data(0)
 {
 }
 
@@ -35,8 +34,10 @@ FileSystem FileSystem::create(uint64_t size, std::string name)
     else
     {
         filesystem._meta_data = {MAGIC_VALUE, size, {}};
+//        filesystem._files.resize(size);
         std::ofstream file_system(filesystem._name, std::ios::binary);
         filesystem._meta_data.write(file_system);
+//        file_system.write(reinterpret_cast<const char*>(filesystem._files.data()), filesystem._files.size());
     }
     return filesystem;
 }
@@ -66,11 +67,14 @@ std::shared_ptr<MyFileSystem::MyFile> FileSystem::create_file(std::string name_f
 
 void FileSystem::flush_file(const MyFileSystem::MyFile& file)
 {
+//    if (file.size() > Max_size_of_file)
+
+
     std::ofstream file_system(_name, std::ios_base::in);
 
     file_system.seekp(sizeof(_meta_data) + _meta_data._files_offset[file._name_file], std::ios::beg);
 
-    file_system.write(reinterpret_cast<const char*>(file._name_file.data()), file._name_file.size());
+//    file_system.write(reinterpret_cast<const char*>(file._name_file.data()), file._name_file.size());
     file_system.write(reinterpret_cast<const char*>(file._data_file.data()), file._data_file.size());
 }
 

@@ -21,7 +21,6 @@ private:
 
     std::string _name;
     MetaData _meta_data;
-
     std::vector<std::shared_ptr<MyFile>> _files; //для записи файлов
 
     FileSystem(const std::string& name);
