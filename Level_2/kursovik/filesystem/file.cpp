@@ -1,16 +1,16 @@
 #include "file.h"
-#include <iostream>
-#include <bitset>
-#include<cstring>
 
+#include <bitset>
+#include <cstring>
+#include <iostream>
 
 namespace
 {
     constexpr size_t Max_size_of_file = 124;
 }
 
-namespace MyFileSystem {
-
+namespace MyFileSystem
+{
 MyFile::MyFile(std::string name_file, FileSystem& filesystem)
     : _name_file(std::move(name_file))
     , _size_file(0)

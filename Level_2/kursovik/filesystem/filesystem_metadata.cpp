@@ -1,11 +1,5 @@
 #include "filesystem_metadata.h"
 
-/*
-uint32_t _magic_value = 0;
-uint64_t _size = 0;
-std::unordered_map<std::string, size_t> _files_offset;
-*/
-
 namespace MyFileSystem
 {
 

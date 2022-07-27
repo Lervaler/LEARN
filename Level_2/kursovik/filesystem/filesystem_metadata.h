@@ -8,13 +8,13 @@
 
 namespace MyFileSystem
 {
-    static constexpr uint32_t MAGIC_VALUE = 785;
+    static constexpr uint32_t MAGIC_VALUE = 785; // магическое число
 
     struct MetaData
     {
-        uint32_t _magic_value = 0;
-        uint64_t _size = 0;
-        std::unordered_map<std::string, size_t> _files_offset;
+        uint32_t _magic_value = 0; // магическое число
+        uint64_t _size = 0; // размер файловой системы
+        std::unordered_map<std::string, size_t> _files_offset; // таблица DAT
 
         bool read(std::istream& steam);
         bool write(std::ostream& steam);
