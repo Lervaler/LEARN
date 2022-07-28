@@ -27,6 +27,7 @@ bool MetaData::read(std::istream& steam)
         steam.read(reinterpret_cast<char*>(&temp_value), sizeof(temp_value));
         _files_offset[temp_key] = temp_value;
     }
+    steam.read(reinterpret_cast<char*>(&_capasity), sizeof(_capasity));
 
     return steam.good();
 }
@@ -44,6 +45,7 @@ bool MetaData::write(std::ostream& steam)
         steam.write(reinterpret_cast<const char*>(key.data()), key_size);
         steam.write(reinterpret_cast<const char*>(&value), sizeof(value));
     }
+    steam.write(reinterpret_cast<const char*>(&_capasity), sizeof(_capasity));
 
     return steam.good();
 }

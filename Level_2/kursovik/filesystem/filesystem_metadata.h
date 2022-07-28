@@ -15,6 +15,7 @@ namespace MyFileSystem
         uint32_t _magic_value = 0; // магическое число
         uint64_t _size = 0; // размер файловой системы
         std::unordered_map<std::string, size_t> _files_offset; // таблица DAT
+        uint64_t _capasity = 0; // вместимость
 
         bool read(std::istream& steam);
         bool write(std::ostream& steam);

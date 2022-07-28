@@ -21,6 +21,7 @@ private:
     MetaData _meta_data; // метаданные файловой системы - основные характеристики
     std::vector<std::shared_ptr<MyFile>> _files; // данные файлов в фс
 
+
     FileSystem(const std::string& name);
     bool read();
 
@@ -30,7 +31,7 @@ public:
 
     std::shared_ptr<MyFile> create_file(std::string name_file); // создание файла
     void flush_file(const MyFileSystem::MyFile& file); // запись файла в фс
-
+    void delete_file(MyFileSystem::MyFile& file); // удалить файла из фс
 };
 }
 
