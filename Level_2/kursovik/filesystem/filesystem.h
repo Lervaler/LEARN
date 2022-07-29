@@ -30,6 +30,7 @@ public:
     void destroy();// уничтожение файловой системы
 
     std::shared_ptr<MyFile> create_file(std::string name_file); // создание файла
+    void rename_file(MyFileSystem::MyFile& file); // переименование
     void flush_file(const MyFileSystem::MyFile& file); // запись файла в фс
     void delete_file(MyFileSystem::MyFile& file); // удалить файла из фс
 };
