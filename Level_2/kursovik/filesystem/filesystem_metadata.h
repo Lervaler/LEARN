@@ -1,6 +1,8 @@
 #ifndef FILESYSTEM_METADATA_H
 #define FILESYSTEM_METADATA_H
 
+#include "sign.h"
+
 #include <cinttypes>
 #include <iostream>
 #include <string>
@@ -8,17 +10,16 @@
 
 namespace MyFileSystem
 {
-    static constexpr uint32_t MAGIC_VALUE = 785; // магическое число
-
     struct MetaData
     {
         uint32_t _magic_value = 0; // магическое число
-        uint64_t _size = 0; // размер файловой системы
-        std::unordered_map<std::string, size_t> _files_offset; // таблица DAT
-        uint64_t _capasity = 0; // вместимость
+        std::array<bool, BLOCK_MAX> _free_space; //свободно - занято
+        std::array<uint32_t , BLOCK_MAX> _fat_tab; // таблица индексов
 
-        bool read(std::istream& steam);
-        bool write(std::ostream& steam);
+        MetaData();
+
+        bool read(std::istream& stream);
+        bool write(std::ostream& stream);
         size_t size() const;
     };
 }

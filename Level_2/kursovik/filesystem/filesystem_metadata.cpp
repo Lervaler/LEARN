@@ -1,56 +1,45 @@
 #include "filesystem_metadata.h"
 
+/*
+uint32_t _magic_value = 0; // магическое число
+std::array<bool, BLOCK_COUNT> _free_space;
+std::array<uint32_t , BLOCK_COUNT> _fat_tab;
+*/
 namespace MyFileSystem
 {
+MetaData::MetaData()
+: _magic_value(MAGIC_VALUE)
+{
+    std::fill(_free_space.begin(), _free_space.end(), FREE_BLOCK);
+    std::fill(_fat_tab.begin(), _fat_tab.end(), EMPTY_FAT);
+}
 
-bool MetaData::read(std::istream& steam)
+bool MetaData::read(std::istream& stream)
 {
     uint32_t magic_value = 0;
-    steam.read(reinterpret_cast<char*>(&magic_value), sizeof(magic_value));
+    stream.read(reinterpret_cast<char*>(&magic_value), sizeof(magic_value));
     if(magic_value != MAGIC_VALUE)
         return false;
 
     _magic_value = magic_value;
+    stream.read(reinterpret_cast<char*>(_free_space.data()), _free_space.size());
+    stream.read(reinterpret_cast<char*>(_fat_tab.data()), _fat_tab.size());
 
-    steam.read(reinterpret_cast<char*>(&_size), sizeof(_size));
-    size_t table_size = 0;
-
-    steam.read(reinterpret_cast<char*>(&table_size), sizeof(table_size));
-    for (size_t i = 0; i < table_size; ++i)
-    {
-        size_t key_size = 0;
-        steam.read(reinterpret_cast<char*>(&key_size), sizeof(key_size));
-        std::string temp_key;
-        temp_key.resize(key_size);
-        steam.read(reinterpret_cast<char*>(temp_key.data()), key_size);
-        size_t temp_value = 0;
-        steam.read(reinterpret_cast<char*>(&temp_value), sizeof(temp_value));
-        _files_offset[temp_key] = temp_value;
-    }
-    steam.read(reinterpret_cast<char*>(&_capasity), sizeof(_capasity));
-
-    return steam.good();
+    return stream.good();
 }
 
-bool MetaData::write(std::ostream& steam)
+bool MetaData::write(std::ostream& stream)
 {
-    steam.write(reinterpret_cast<const char*>(&_magic_value), sizeof(_magic_value));
-    steam.write(reinterpret_cast<const char*>(&_size), sizeof(_size));
-    size_t table_size = _files_offset.size();
-    steam.write(reinterpret_cast<const char*>(&table_size), sizeof(table_size));
-    for (const auto& [key, value]: _files_offset)
-    {
-        size_t key_size = key.size();
-        steam.write(reinterpret_cast<const char*>(key.data()), key_size);
-        steam.write(reinterpret_cast<const char*>(&value), sizeof(value));
-    }
-    steam.write(reinterpret_cast<const char*>(&_capasity), sizeof(_capasity));
+    stream.write(reinterpret_cast<const char*>(&_magic_value), sizeof(_magic_value));
+    stream.write(reinterpret_cast<const char*>(_free_space.data()), _free_space.size());
+    stream.write(reinterpret_cast<const char*>(_fat_tab.data()), _fat_tab.size());
 
-    return steam.good();
+    return stream.good();
 }
 
 size_t MetaData::size() const
 {
+    return sizeof(_magic_value) + _free_space.size()*sizeof(bool) + _fat_tab.size()*sizeof(uint32_t);
 }
 
 }
