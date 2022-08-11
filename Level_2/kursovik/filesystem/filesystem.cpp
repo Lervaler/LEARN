@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include <vector>
 
 namespace MyFileSystem
 {
@@ -38,7 +39,7 @@ FileSystem FileSystem::create(std::string name)
             filesystem._meta_data._fat_tab[i] = i+1;
         }
         filesystem._meta_data._fat_tab[blocks_max - 1] = END_BLOCK;
-//!
+
         file_system.seekp(0, std::ios::beg);
         filesystem._meta_data.write(file_system);
 
@@ -65,16 +66,16 @@ std::shared_ptr<MyFileSystem::MyFile> FileSystem::create_file(std::string name_f
 {
     std::shared_ptr<MyFileSystem::MyFile>file {new MyFileSystem::MyFile{std::move(name_file), *this} };
 
-    for(uint64_t i = 0; i < _meta_data._free_space.size(); ++i)
+    for(uint64_t i = 0; i < _meta_data._fat_tab.size(); ++i)
     {
-        if(_meta_data._free_space[i] == FREE_BLOCK)
+        if(_meta_data._fat_tab[i] == EMPTY_FAT)
         {
-            _meta_data._free_space[i] = BUSY_BLOCK;
             _meta_data._fat_tab[i] = END_BLOCK;
             file->_meta_data_file._fat_index = i;
             break;
         }
     }
+
     _meta_data_files._files_meta_data.emplace(file->_meta_data_file._name_file, file->_meta_data_file);
 //    _meta_data_files._files_meta_data[file->_meta_data_file._name_file] = file->_meta_data_file;
 
@@ -95,7 +96,9 @@ void FileSystem::rename_file(MyFileSystem::MyFile& file, std::string new_name)
 
 void FileSystem::flush_file(const MyFileSystem::MyFile& file)
 {
-    int64_t blocks_max = (file._data_file.size()/ BLOCK_SIZE) + 1; // кол-во байт метаданных файлика / блок
+
+    int64_t blocks_max = (file._meta_data_file._size_file/ BLOCK_SIZE) + 1; // кол-во байт метаданных файлика / блок
+//    int64_t blocks_max = (file._data_file.size()/ BLOCK_SIZE) + 1; // кол-во байт метаданных файлика / блок
 
     for(int64_t i = 0; i < blocks_max; ++i)
     {
@@ -111,11 +114,11 @@ void FileSystem::flush_file(const MyFileSystem::MyFile& file)
 
     int64_t index = file._meta_data_file._fat_index;
 
-    for(int64_t i = 0; i < blocks_max; ++i)
+    for(int64_t i = 0; i < blocks_max && blocks_max > 1; ++i)
     {
         for(int64_t j = 0; j < _meta_data._fat_tab.size(); ++j)
        {
-            if(_meta_data._fat_tab[j] == 0)
+            if(_meta_data._fat_tab[j] == EMPTY_FAT )
             {
                 _meta_data._fat_tab[index] = j;
                 index = j;
@@ -129,10 +132,39 @@ void FileSystem::flush_file(const MyFileSystem::MyFile& file)
     file_system.seekp(0, std::ios::beg);
     _meta_data.write(file_system);
 
-//        filesystem._meta_data_files.write(file_system);
+//    if(_meta_data_files.size() <= BLOCK_SIZE)
+//    {
+        _meta_data_files.write(file_system);
+//    }
+//    else
+//    {
+//        std::cout << "help!" << std::endl;
+//    }
 
-    file_system.seekp(sizeof(_meta_data) + sizeof(_meta_data_files), std::ios::beg);
-    file_system.write(reinterpret_cast<const char*>(file._data_file.data()), file._data_file.size());
+
+    uint32_t first_index = file._meta_data_file._fat_index;
+
+    std::vector<uint32_t> current_file_indexes;
+    current_file_indexes.emplace_back(file._meta_data_file._fat_index);
+    for (uint32_t i = first_index; _meta_data._fat_tab.at(i) != END_BLOCK;)
+    {
+        current_file_indexes.emplace_back(_meta_data._fat_tab.at(i));
+        i = _meta_data._fat_tab.at(first_index);
+    }
+
+    uint8_t k = 0;
+    for(uint8_t j = 0; j < blocks_max; ++j)
+    {
+//        file_system.seekp(sizeof(_meta_data)+ sizeof(_meta_data_files) + BLOCK_SIZE*n.at(i), std::ios::beg);
+        file_system.seekp(sizeof(_meta_data._magic_value) +_meta_data._free_space.size()+ _meta_data._fat_tab.size()+ BLOCK_SIZE*current_file_indexes.at(j), std::ios::beg);
+
+        for(uint8_t i = 0; i < BLOCK_SIZE && k < file._data_file.size(); ++i)
+        {
+            file_system.write(reinterpret_cast<const char*>(&file._data_file[k]), sizeof(i));
+            ++k;
+        }
+    }
+
 }
 
 void FileSystem::delete_file(MyFileSystem::MyFile& file)

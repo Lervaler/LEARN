@@ -24,7 +24,7 @@ private:
     MetaDataFiles _meta_data_files;
 
     std::vector<std::shared_ptr<MyFile>> _files; // данные файлов в фс
-    std::array<uint32_t, BLOCK_MAX*BLOCK_SIZE> _data; // BLOCK_SIZE*BLOCK_MAX+ metadata
+    std::array<uint8_t, BLOCK_MAX*BLOCK_SIZE> _data; // BLOCK_SIZE*BLOCK_MAX+ metadata
 
     FileSystem(const std::string& name);
     bool read();

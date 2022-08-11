@@ -16,13 +16,13 @@ MyFile::MyFile(std::string name_file, FileSystem& filesystem)
 
 void MyFile::write(const std::string& data)
 {
-    if (data.size() <= Max_size_of_file)
-    {
+//    if (data.size() <= Max_size_of_file)
+//    {
         _data_file.resize(data.size());
         memcpy(_data_file.data(), data.data(), data.size());
         _meta_data_file._size_file = data.size();
-    }
-    else throw std::exception{};
+//    }
+//    else throw std::exception{};
 }
 
 //void MyFile::write_append(const std::string& data)
