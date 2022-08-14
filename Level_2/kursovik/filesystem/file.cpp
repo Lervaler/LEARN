@@ -26,17 +26,13 @@ void MyFile::write(const std::string& data)
 //    else throw std::exception{};
 }
 
-//void MyFile::write_append(const std::string& data)
-//{
-//    if (data.size() <= Max_size_of_file - _meta_data_file._size_file)
-//    {
-//        const uint64_t temp_data = _data_file.size();
-//        _data_file.resize(temp_data + data.size());
-//        memcpy(_data_file.data() + temp_data, data.data(), data.size());
-//        _meta_data_file._size_file = data.size();
-//    }
-//    else throw std::exception{};
-//}
+void MyFile::write_append(const std::string& data)
+{
+    const uint64_t temp_data = _data_file.size();
+    _data_file.resize(temp_data + data.size());
+    memcpy(_data_file.data() + temp_data, data.data(), data.size());
+    _meta_data_file._size_file = _data_file.size();
+}
 
 void MyFile::rename(std::string new_name)
 {
