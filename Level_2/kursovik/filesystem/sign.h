@@ -10,7 +10,9 @@ namespace MyFileSystem
         FREE_BLOCK = 1,
         BUSY_BLOCK = 0,
         END_BLOCK = -1,
-        EMPTY_FAT = 0
+        EMPTY_FAT = 0,
+        META_DATA_FREE = 0,
+        FREE_DATA = 1
     };
 
     static constexpr uint32_t MAGIC_VALUE = 785; // магическое число

@@ -20,6 +20,8 @@ TEST (Filesystem_test, create_test)
     auto file_2 = sys_1.create_file("world");
     file_1->write("aaabbbcccdddfffggghhhjjjkkk");
     file_1->flush();
+    file_2->write("qqq www eee");
+    file_2->flush();
 
 //    sys_1.destroy();
 //    EXPECT_FALSE(std::filesystem::exists(fs_name));

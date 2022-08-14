@@ -18,18 +18,22 @@ class MyFile;
 
 class FileSystem
 {
+
 private:
     std::string _name; // имя файловой системы (файл .fs)
     MetaData _meta_data; // метаданные файловой системы - основные характеристики
-    MetaDataFiles _meta_data_files;
+    MetaDataFiles _meta_data_files; // метаданные всех файлов
 
-    std::vector<std::shared_ptr<MyFile>> _files; // данные файлов в фс
-    std::array<uint8_t, BLOCK_MAX*BLOCK_SIZE> _data; // BLOCK_SIZE*BLOCK_MAX+ metadata
+    std::vector<std::shared_ptr<MyFile>> _files; // данные файлов в фс (объекты файлов - сами не пишутся на диск, только данные)
+
+    std::array<uint8_t, BLOCK_MAX*BLOCK_SIZE> _disk_mdfiles; // место под метадату файлов на диске
+    std::array<uint8_t, BLOCK_MAX*BLOCK_SIZE> _data; // место под данные файлов на диске
 
     FileSystem(const std::string& name);
     bool read();
 
 public:
+    void func_fat_indexing(const MyFileSystem::MyFile& file, int64_t blocks_max);
     static FileSystem create(std::string name); // создание файловой системы
     void destroy();// уничтожение файловой системы
 

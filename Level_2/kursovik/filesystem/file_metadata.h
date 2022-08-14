@@ -11,7 +11,7 @@ struct MetaDataFile
 
     std::string _name_file; // имя файла
     uint64_t _size_file; // размер файла
-    uint32_t _fat_index;
+    mutable uint32_t _fat_index;
 
     void read();
     void write();
