@@ -22,7 +22,8 @@ TEST (Filesystem_test, create_test)
     file_1->flush();
     file_2->write("qqq www eee");
     file_2->flush();
-
+    file_1->write("ooooo ooooo ooooo oooooo ooooo ooooo ooooo ooooo ooooo ooooo oooooo oooooo ooooo oooooo oooooo");
+    file_1->flush();
 //    sys_1.destroy();
 //    EXPECT_FALSE(std::filesystem::exists(fs_name));
 }

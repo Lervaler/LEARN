@@ -12,6 +12,7 @@ MyFile::MyFile(std::string name_file, FileSystem& filesystem)
 {
     _meta_data_file._name_file = std::move(name_file);
     _meta_data_file._size_file = 0;
+    _meta_data_file._fat_index = 0;
 }
 
 void MyFile::write(const std::string& data)
