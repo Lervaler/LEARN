@@ -33,7 +33,9 @@ private:
     bool read();
 
 public:
-    void func_fat_indexing(const MyFileSystem::MyFile& file, int64_t blocks_max);
+    friend void func_fat_indexing(const MyFileSystem::MyFile& file, int64_t blocks_max, FileSystem& filesystem);
+    friend std::vector<uint32_t> func_take_cur_fileindexes(const MyFileSystem::MyFile& file, int64_t blocks_max, FileSystem& filesystem);
+    friend void func_reset_free_spase(const std::vector<uint32_t>& current_file_indexes, FileSystem& filesystem);
     static FileSystem create(std::string name); // создание файловой системы
     void destroy();// уничтожение файловой системы
 

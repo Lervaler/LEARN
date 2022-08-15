@@ -81,35 +81,24 @@ void FileSystem::flush_file(const MyFileSystem::MyFile& file)
     {
         // сначала считать индексы которые были - и обнулить их, зачистить свободное место по количеству блоков
 
-        uint32_t first_index = file._meta_data_file._fat_index; // первый фат-индекс в файле
+        // считываем текущие фат-индексы файла
+        std::vector<uint32_t> current_file_indexes = func_take_cur_fileindexes(file, blocks_max, *this);
 
-        std::vector<uint32_t> current_file_indexes; // все фат-индексы текущего файла
-        current_file_indexes.emplace_back(file._meta_data_file._fat_index);
-        uint32_t i = first_index;
-        for ( ; _meta_data._fat_tab.at(i) != END_BLOCK;)
-        {
-            current_file_indexes.emplace_back(_meta_data._fat_tab.at(i));
-            i = _meta_data._fat_tab.at(i);
-        }
 
+        // освобождение фат-таблицы от текущих индексов
         for(uint32_t i = 0; i < current_file_indexes.size(); ++i)
         {
                     _meta_data._fat_tab[current_file_indexes.at(i)] = EMPTY_FAT;
         }
 
-        for(int64_t i = 0; i < current_file_indexes.size(); ++i)
-        {
-            for(int64_t j = 0; j < _meta_data._free_space.size(); ++j)
-            {
-                if(_meta_data._free_space[j] == BUSY_BLOCK)
-                {
-                    _meta_data._free_space[j] = FREE_BLOCK;
-                    break;
-                }
-            }
-        }
+        // освобождение свободного места
+         func_reset_free_spase(current_file_indexes, *this);
+
+        // обнуление фат-индекса файла (указатель на зарезервированную часть фат-таблицы)
         file._meta_data_file._fat_index = 0;
-        //перезаписать метадату
+
+
+        //перезаписать метадату - а надо ли?
         std::ofstream file_system(_name, std::ios_base::in);
         file_system.seekp(0, std::ios::beg);
         _meta_data.write(file_system);
@@ -158,10 +147,8 @@ void FileSystem::flush_file(const MyFileSystem::MyFile& file)
         }
 
         _meta_data_files._files_meta_data[file._meta_data_file._name_file] = file._meta_data_file;
-
-    }
 //    _meta_data_files._files_meta_data.emplace(file._meta_data_file._name_file, file._meta_data_file);
-
+    }
 
 
 // записываем на диск метадату и метадату файлов
@@ -179,16 +166,8 @@ void FileSystem::flush_file(const MyFileSystem::MyFile& file)
 
 
     // списываем с фат-таблицы индексы для текущего файла
-    uint32_t first_index = file._meta_data_file._fat_index; // первый фат-индекс в файле
 
-    std::vector<uint32_t> current_file_indexes; // все фат-индексы текущего файла
-    current_file_indexes.emplace_back(file._meta_data_file._fat_index);
-    uint32_t i = first_index;
-    for (; _meta_data._fat_tab.at(i) != END_BLOCK;)
-    {
-        current_file_indexes.emplace_back(_meta_data._fat_tab.at(i));
-        i = _meta_data._fat_tab.at(i);
-    }
+    std::vector<uint32_t> current_file_indexes = func_take_cur_fileindexes(file, blocks_max, *this);
 
     //запись
     uint8_t k = 0;
