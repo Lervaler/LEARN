@@ -67,28 +67,21 @@ void FileSystem::rename_file(MyFileSystem::MyFile& file, std::string new_name)
 {
 }
 
-void FileSystem::flush_file(const MyFileSystem::MyFile& file)
+void FileSystem::flush_file(MyFileSystem::MyFile& file)
 {
-
 // считаем сколько блоков памяти займет файл
     int64_t blocks_max = (file._meta_data_file._size_file/ BLOCK_SIZE) + 1; // кол-во блоков памяти для файла
-//    int64_t blocks_max = (file._data_file.size()/ BLOCK_SIZE) + 1; // кол-во блоков памяти для файла
-
-
-    // присваиваем индексы, запоминаем метаданные
 
     if (file._meta_data_file._fat_index != 0)// если файл уже был записан и уже есть индексы (0 блок ФАТ-таблицы зарезервирован)
     {
         // сначала считать индексы которые были - и обнулить их, зачистить свободное место по количеству блоков
-
         // считываем текущие фат-индексы файла
         std::vector<uint32_t> current_file_indexes = func_take_cur_fileindexes(file, blocks_max, *this);
-
 
         // освобождение фат-таблицы от текущих индексов
         for(uint32_t i = 0; i < current_file_indexes.size(); ++i)
         {
-                    _meta_data._fat_tab[current_file_indexes.at(i)] = EMPTY_FAT;
+             _meta_data._fat_tab[current_file_indexes.at(i)] = EMPTY_FAT;
         }
 
         // освобождение свободного места
@@ -96,63 +89,22 @@ void FileSystem::flush_file(const MyFileSystem::MyFile& file)
 
         // обнуление фат-индекса файла (указатель на зарезервированную часть фат-таблицы)
         file._meta_data_file._fat_index = 0;
-
-
-        //перезаписать метадату - а надо ли?
-        std::ofstream file_system(_name, std::ios_base::in);
-        file_system.seekp(0, std::ios::beg);
-        _meta_data.write(file_system);
     }
-
 
     if (file._meta_data_file._fat_index == 0)   // если это новый файл ранее не записывался на диск
     {
-        for(uint64_t i = 0; i < _meta_data._fat_tab.size(); ++i)
-        {
-            if(_meta_data._fat_tab[i] == EMPTY_FAT)
-            {
-                _meta_data._fat_tab[i] = END_BLOCK;
-                file._meta_data_file._fat_index = i;
-                break;
-            }
-        }
+        // присваиваем фат-индексы файлу
+        func_make_fat_indexing(file, blocks_max, *this); // из-за изменений в индексах пришлось снять константность flush
 
-        int64_t index = file._meta_data_file._fat_index;
+        // занимаем место в таблице свободного места
+        func_take_free_space(blocks_max, *this);
 
-        for(int64_t i = 0; i < blocks_max - 1 && blocks_max > 1; ++i)
-        {
-            for(int64_t j = 0; j < _meta_data._fat_tab.size(); ++j)
-           {
-                if(_meta_data._fat_tab[j] == EMPTY_FAT )
-                {
-                    _meta_data._fat_tab[index] = j;
-                    index = j;
-                    break;
-                }
-            }
-            _meta_data._fat_tab[index] = END_BLOCK;
-        }
-
-
-        for(int64_t i = 0; i < blocks_max; ++i)
-        {
-            for(int64_t j = 0; j < _meta_data._free_space.size(); ++j)
-            {
-                if(_meta_data._free_space[j] == FREE_BLOCK)
-                {
-                    _meta_data._free_space[j] = BUSY_BLOCK;
-                    break;
-                }
-            }
-        }
-
+        // добавляем в метадату всех файлов объект текущего файла (ключ - имя, содержимое - размер и фат-индекс)
         _meta_data_files._files_meta_data[file._meta_data_file._name_file] = file._meta_data_file;
 //    _meta_data_files._files_meta_data.emplace(file._meta_data_file._name_file, file._meta_data_file);
     }
 
-
 // записываем на диск метадату и метадату файлов
-
     std::ofstream file_system(_name, std::ios_base::in);
 
     file_system.seekp(0, std::ios::beg);
@@ -161,15 +113,10 @@ void FileSystem::flush_file(const MyFileSystem::MyFile& file)
     file_system.seekp(_meta_data.size(), std::ios::beg);
     _meta_data_files.write(file_system);
 
-
-// запись на диск данных
-
-
     // списываем с фат-таблицы индексы для текущего файла
-
     std::vector<uint32_t> current_file_indexes = func_take_cur_fileindexes(file, blocks_max, *this);
 
-    //запись
+    //запись на диск данных
     uint8_t k = 0;
     for(uint8_t j = 0; j < blocks_max; ++j)
     {
@@ -180,7 +127,6 @@ void FileSystem::flush_file(const MyFileSystem::MyFile& file)
             ++k;
         }
     }
-
 }
 
 void FileSystem::delete_file(MyFileSystem::MyFile& file)

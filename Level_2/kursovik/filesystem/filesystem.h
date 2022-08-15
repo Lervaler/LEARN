@@ -36,12 +36,15 @@ public:
     friend void func_fat_indexing(const MyFileSystem::MyFile& file, int64_t blocks_max, FileSystem& filesystem);
     friend std::vector<uint32_t> func_take_cur_fileindexes(const MyFileSystem::MyFile& file, int64_t blocks_max, FileSystem& filesystem);
     friend void func_reset_free_spase(const std::vector<uint32_t>& current_file_indexes, FileSystem& filesystem);
+    friend void func_make_fat_indexing(MyFileSystem::MyFile& file, int64_t blocks_max, FileSystem& filesystem);
+    friend void func_take_free_space(int64_t blocks_max, FileSystem& filesystem);
+
     static FileSystem create(std::string name); // создание файловой системы
     void destroy();// уничтожение файловой системы
 
     std::shared_ptr<MyFileSystem::MyFile> create_file(std::string name_file); // создание файла
     void rename_file(MyFileSystem::MyFile& file, std::string new_name ); // переименование
-    void flush_file(const MyFileSystem::MyFile& file); // запись файла в фс
+    void flush_file(MyFileSystem::MyFile& file); // запись файла в фс
     void delete_file(MyFileSystem::MyFile& file); // удалить файла из фс
 };
 }

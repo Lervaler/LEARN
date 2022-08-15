@@ -29,6 +29,8 @@ public:
 //    void write(std::string str);
     friend void func_fat_indexing(const MyFileSystem::MyFile& file, int64_t blocks_max, FileSystem& filesystem);
     friend std::vector<uint32_t> func_take_cur_fileindexes(const MyFileSystem::MyFile& file, int64_t blocks_max, FileSystem& filesystem);
+    friend void func_make_fat_indexing(MyFileSystem::MyFile& file, int64_t blocks_max, FileSystem& filesystem);
+
     void write(const std::string& data);
     void write_append(const std::string& data);
     void rename(std::string new_name);
