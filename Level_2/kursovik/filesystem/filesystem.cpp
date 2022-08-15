@@ -85,10 +85,11 @@ void FileSystem::flush_file(const MyFileSystem::MyFile& file)
 
         std::vector<uint32_t> current_file_indexes; // все фат-индексы текущего файла
         current_file_indexes.emplace_back(file._meta_data_file._fat_index);
-        for (uint32_t i = first_index; _meta_data._fat_tab.at(i) != END_BLOCK;)
+        uint32_t i = first_index;
+        for ( ; _meta_data._fat_tab.at(i) != END_BLOCK;)
         {
             current_file_indexes.emplace_back(_meta_data._fat_tab.at(i));
-            i = _meta_data._fat_tab.at(first_index);
+            i = _meta_data._fat_tab.at(i);
         }
 
         for(uint32_t i = 0; i < current_file_indexes.size(); ++i)

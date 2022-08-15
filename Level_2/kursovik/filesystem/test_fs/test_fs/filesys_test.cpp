@@ -23,7 +23,7 @@ TEST (Filesystem_test, create_test)
     file_2->write("qqq www eee");
     file_2->flush();
     file_1->write("ooooo ooooo ooooo oooooo ooooo ooooo ooooo ooooo ooooo ooooo oooooo oooooo ooooo oooooo oooooo");
-//    file_1->flush();   // ошибка тут
+    file_1->flush();   // ошибка тут
     file_1->write_append("eee");
     file_1->flush();
 //    sys_1.destroy();
