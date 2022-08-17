@@ -58,17 +58,41 @@ void FileSystem::destroy()
 std::shared_ptr<MyFileSystem::MyFile> FileSystem::create_file(std::string name_file)
 {
     std::shared_ptr<MyFileSystem::MyFile>file {new MyFileSystem::MyFile{std::move(name_file), *this} };
-    _files.push_back(file);
 
+    _files.push_back(file);
+//    file->_count_file = _files.back();
     return file;
 }
 
 void FileSystem::rename_file(MyFileSystem::MyFile& file, std::string new_name)
 {
+    if (file._meta_data_file._fat_index != 0) // если уже был зафлашен
+    {
+        // замена имени в unordered_map метадате-файлов
+        auto it = _meta_data_files._files_meta_data.find(file._meta_data_file._name_file);
+        if (it != _meta_data_files._files_meta_data.end())
+        {
+          _meta_data_files._files_meta_data[new_name] = it->second;
+          _meta_data_files._files_meta_data.erase(it);
+        }
+        // забираем имя в метадату файла
+        file._meta_data_file._name_file = std::move(new_name);
+        //перезаписываем на диске имя
+        std::ofstream file_system(_name, std::ios_base::in);
+        file_system.seekp(_meta_data.size(), std::ios::beg);
+        _meta_data_files.write(file_system);
+    }
+
+    else // если просто создан и не зафлашен
+    {
+        file._meta_data_file._name_file = std::move(new_name);
+    }
 }
 
 void FileSystem::flush_file(MyFileSystem::MyFile& file)
 {
+//    _files.push_back(file);
+
 // считаем сколько блоков памяти займет файл
     int64_t blocks_max = (file._meta_data_file._size_file/ BLOCK_SIZE) + 1; // кол-во блоков памяти для файла
 
@@ -101,7 +125,6 @@ void FileSystem::flush_file(MyFileSystem::MyFile& file)
 
         // добавляем в метадату всех файлов объект текущего файла (ключ - имя, содержимое - размер и фат-индекс)
         _meta_data_files._files_meta_data[file._meta_data_file._name_file] = file._meta_data_file;
-//    _meta_data_files._files_meta_data.emplace(file._meta_data_file._name_file, file._meta_data_file);
     }
 
 // записываем на диск метадату и метадату файлов
@@ -113,7 +136,7 @@ void FileSystem::flush_file(MyFileSystem::MyFile& file)
     file_system.seekp(_meta_data.size(), std::ios::beg);
     _meta_data_files.write(file_system);
 
-    // списываем с фат-таблицы индексы для текущего файла
+    // списываем с фат-таблицы индексы файла
     std::vector<uint32_t> current_file_indexes = func_take_cur_fileindexes(file, blocks_max, *this);
 
     //запись на диск данных
@@ -131,7 +154,17 @@ void FileSystem::flush_file(MyFileSystem::MyFile& file)
 
 void FileSystem::delete_file(MyFileSystem::MyFile& file)
 {
+     if (file._meta_data_file._fat_index != 0)
+     {
 
+     }
+
+     else
+     {
+
+//         _files.erase(_files.begin());
+
+     }
 }
 
 }

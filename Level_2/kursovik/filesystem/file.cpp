@@ -9,6 +9,7 @@ namespace MyFileSystem
 MyFile::MyFile(std::string name_file, FileSystem& filesystem)
     : _data_file(0)
     , filesystem(filesystem)
+    ,_count_file(nullptr)
 {
     _meta_data_file._name_file = std::move(name_file);
     _meta_data_file._size_file = 0;
