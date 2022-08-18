@@ -44,14 +44,20 @@ void MyFile::flush()
     filesystem.flush_file(*this);
 }
 
-void MyFile::read()
+std::vector<uint8_t> MyFile::read()
 {
-    filesystem.read_file(*this);
+    return _data_file;
+//    filesystem.read_file(*this);
 }
 
 void MyFile::delete_file()
 {
     filesystem.delete_file(*this);
+}
+
+std::string MyFile::name_return()
+{
+    return _meta_data_file._name_file;
 }
 
 }

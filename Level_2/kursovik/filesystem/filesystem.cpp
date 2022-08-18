@@ -163,7 +163,7 @@ void FileSystem::flush_file(MyFileSystem::MyFile& file)
     }
 }
 
-void FileSystem::read_file(MyFileSystem::MyFile& file)
+void FileSystem::show_data_file_from_disk(MyFileSystem::MyFile& file)
 {
     if(file._meta_data_file._fat_index != 1)
     {
@@ -239,6 +239,29 @@ void FileSystem::delete_file(MyFileSystem::MyFile& file)
      {
          std::cout<<"you can't delete deleted file"<< std:: endl;
      }
+}
+
+MyFileSystem::MyFile FileSystem::read_from_disk(MyFileSystem::MyFile& file)
+{
+    std::string name_name_for_find = file._meta_data_file._name_file;
+    auto itr = find_if(_files.begin(), _files.end(), [&name_name_for_find](const auto& element)
+    {
+        return element->_meta_data_file._name_file == name_name_for_find;
+    });
+
+    int a = 0;
+    if(itr != _files.end())
+    {
+        a = std::distance(_files.begin(), itr);
+    }
+
+    MyFile file_a = (* _files[a]);
+
+    for(std::vector<uint8_t>::iterator it = file_a._data_file.begin() ; it!=file_a._data_file.end() ; ++it)
+    {
+        std::cout<<*it;
+    }
+    return file_a;
 }
 
 }

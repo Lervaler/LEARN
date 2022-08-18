@@ -34,8 +34,9 @@ public:
     void write_append(const std::string& data);
     void rename(std::string new_name);
     void flush();
-    void read();
+    std::vector<uint8_t> read();
     void delete_file();
+    std::string name_return();
 };
 }
 
