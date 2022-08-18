@@ -163,7 +163,7 @@ void FileSystem::flush_file(MyFileSystem::MyFile& file)
     }
 }
 
-void FileSystem::show_data_file_from_disk(MyFileSystem::MyFile& file)
+void FileSystem::show_data_file_from_disk(MyFileSystem::MyFile& file) // from _files
 {
     if(file._meta_data_file._fat_index != 1)
     {
@@ -241,7 +241,7 @@ void FileSystem::delete_file(MyFileSystem::MyFile& file)
      }
 }
 
-MyFileSystem::MyFile FileSystem::read_from_disk(MyFileSystem::MyFile& file)
+MyFileSystem::MyFile FileSystem::read_from_files(MyFileSystem::MyFile& file)
 {
     std::string name_name_for_find = file._meta_data_file._name_file;
     auto itr = find_if(_files.begin(), _files.end(), [&name_name_for_find](const auto& element)
@@ -262,6 +262,46 @@ MyFileSystem::MyFile FileSystem::read_from_disk(MyFileSystem::MyFile& file)
         std::cout<<*it;
     }
     return file_a;
+}
+
+std::vector<uint8_t> FileSystem::read_data_from_disk(std::string name_file)
+{
+    std::string name_name_for_find = std::move(name_file);
+    auto itr = find_if(_files.begin(), _files.end(), [&name_name_for_find](const auto& element)
+    {
+        return element->_meta_data_file._name_file == name_name_for_find;
+    });
+
+    int a = 0;
+    if(itr != _files.end())
+    {
+        a = std::distance(_files.begin(), itr);
+    }
+
+    MyFile file_a = (* _files[a]);
+
+    uint64_t size = file_a._meta_data_file._size_file;
+
+    int64_t blocks_max = (size/ BLOCK_SIZE) + 1;
+    std::vector<uint32_t> current_file_indexes = func_take_cur_fileindexes(file_a, blocks_max, *this);
+
+    std::ifstream file_system(_name, std::ios::binary);
+
+    std::vector<uint8_t> data;
+    data.resize(size);
+
+    uint8_t k = 0;
+    for(uint8_t j = 0; j < blocks_max; ++j)
+    {
+        file_system.seekg(_meta_data.size()+ _disk_mdfiles.size()+ BLOCK_SIZE*current_file_indexes.at(j), std::ios::beg);
+        for(uint8_t i = 0; i < BLOCK_SIZE && k < size; ++i)
+        {
+            file_system.read(reinterpret_cast<char*>(&data[k]), sizeof(i));
+            ++k;
+        }
+    }
+
+    return data;
 }
 
 }

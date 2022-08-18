@@ -47,7 +47,6 @@ void MyFile::flush()
 std::vector<uint8_t> MyFile::read()
 {
     return _data_file;
-//    filesystem.read_file(*this);
 }
 
 void MyFile::delete_file()

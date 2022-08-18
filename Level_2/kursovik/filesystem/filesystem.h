@@ -48,7 +48,8 @@ public:
     void flush_file(MyFileSystem::MyFile& file); // запись файла в фс
     void show_data_file_from_disk(MyFileSystem::MyFile& file); // прочитать файл
     void delete_file(MyFileSystem::MyFile& file); // удалить файла из фс
-    MyFileSystem::MyFile read_from_disk(MyFileSystem::MyFile& file);
+    MyFileSystem::MyFile read_from_files(MyFileSystem::MyFile& file);
+    std::vector<uint8_t> read_data_from_disk(std::string name_file);
 };
 }
 

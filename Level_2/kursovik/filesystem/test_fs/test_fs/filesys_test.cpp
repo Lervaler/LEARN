@@ -14,24 +14,22 @@ TEST (Filesystem_test, create_test)
     EXPECT_FALSE(std::filesystem::exists(fs_name));
 
     MyFileSystem::FileSystem sys_1 = MyFileSystem::FileSystem::create(fs_name);
-
     EXPECT_TRUE(std::filesystem::exists(fs_name));
 
     sys_1.destroy();
     EXPECT_FALSE(std::filesystem::exists(fs_name));
 }
 
-TEST (Filesystem_test, read_test)
+TEST (Filesystem_test, create_2_test)
 {
     static const std::string fs_name = "D:\\01_Projects\\HomeWork\\"
                                        "LEARN\\LEARN\\Level_2\\kursovik\\filesystem\\one.fs";
     {
         MyFileSystem::FileSystem sys_1 = MyFileSystem::FileSystem::create(fs_name);
     }
-
     MyFileSystem::FileSystem sys_2 = MyFileSystem::FileSystem::create(fs_name);
-
     sys_2.destroy();
+    EXPECT_FALSE(std::filesystem::exists(fs_name));
 }
 
 TEST (Filesystem_test, write_file_without_flush)
@@ -46,13 +44,20 @@ TEST (Filesystem_test, write_file_without_flush)
     file_1->write("aaabbb");
 
     std::vector<uint8_t> a = file_1->read();
-    std::vector<uint8_t> b = {{'a'}, {'a'} , {'a'}, {'b'}, {'b'}, {'b'}};
+    std::vector<uint8_t> b = {'a', 'a' , 'a', 'b', 'b', 'b'};
 
     EXPECT_EQ(a, b);
 
     sys_1.destroy();
     EXPECT_FALSE(std::filesystem::exists(fs_name));
 }
+
+
+TEST (Filesystem_test, write_file_after_flush)
+{
+
+}
+
 
 TEST (Filesystem_test, write_append_file_without_flush)
 {
@@ -66,7 +71,7 @@ TEST (Filesystem_test, write_append_file_without_flush)
     file_1->write("aaabbb");
 
     std::vector<uint8_t> a = file_1->read();
-    std::vector<uint8_t> b = {{'a'}, {'a'} , {'a'}, {'b'}, {'b'}, {'b'}};
+    std::vector<uint8_t> b = {'a', 'a' , 'a', 'b', 'b', 'b'};
 
     EXPECT_EQ(a, b);
 
@@ -77,6 +82,41 @@ TEST (Filesystem_test, write_append_file_without_flush)
     b.push_back('c');
 
     EXPECT_EQ(a_a, b);
+
+    sys_1.destroy();
+    EXPECT_FALSE(std::filesystem::exists(fs_name));
+}
+
+TEST (Filesystem_test, write_append_file_after_flush)
+{
+    static const std::string fs_name = "D:\\01_Projects\\HomeWork\\"
+                                       "LEARN\\LEARN\\Level_2\\kursovik\\filesystem\\ONE.fs";
+
+    MyFileSystem::FileSystem sys_1 = MyFileSystem::FileSystem::create(fs_name);
+    EXPECT_TRUE(std::filesystem::exists(fs_name));
+
+    auto file_1 = sys_1.create_file("hello");
+    file_1->write("aaabbb");
+    file_1->flush();
+
+    std::vector<uint8_t> a = file_1->read();
+    std::vector<uint8_t> b = {'a', 'a' , 'a', 'b', 'b', 'b'};
+    EXPECT_EQ(a, b);
+
+    MyFileSystem::MyFile file_a = sys_1.read_from_files(*file_1);
+
+    std::vector<uint8_t> file_1_data = file_1->read();
+    std::vector<uint8_t> file_a_data = file_a.read();
+    EXPECT_EQ(file_1_data, file_a_data);
+
+    file_1->write_append("ccc");
+    file_1->flush();
+
+    MyFileSystem::MyFile file_b = sys_1.read_from_files(*file_1);
+
+    std::vector<uint8_t> file_new_data = file_1->read();
+    std::vector<uint8_t> file_b_data = file_b.read();
+    EXPECT_EQ(file_new_data, file_b_data);
 
     sys_1.destroy();
     EXPECT_FALSE(std::filesystem::exists(fs_name));
@@ -121,7 +161,7 @@ TEST (Filesystem_test, rename_after_flush)
     file_1->write("aaabbb");
     file_1->flush();
 
-    MyFileSystem::MyFile file_a = sys_1.read_from_disk(*file_1);
+    MyFileSystem::MyFile file_a = sys_1.read_from_files(*file_1);
 
     std::string file_1_name = file_1->name_return();
     std::string file_a_name = file_a.name_return();
@@ -137,7 +177,7 @@ TEST (Filesystem_test, rename_after_flush)
     std::string new_name_file = file_1->name_return();
     EXPECT_EQ(new_name, new_name_file);
 
-    MyFileSystem::MyFile file_b = sys_1.read_from_disk(*file_1);
+    MyFileSystem::MyFile file_b = sys_1.read_from_files(*file_1);
 
     std::string file_new_name = file_1->name_return();
     std::string file_b_name = file_b.name_return();
@@ -160,7 +200,7 @@ TEST (Filesystem_test, flush)
     file_1->write("aaabbb");
     file_1->flush();
 
-    MyFileSystem::MyFile file_a = sys_1.read_from_disk(*file_1);
+    MyFileSystem::MyFile file_a = sys_1.read_from_files(*file_1);
 
     std::string file_1_name = file_1->name_return();
     std::string file_a_name = file_a.name_return();
@@ -170,6 +210,8 @@ TEST (Filesystem_test, flush)
     std::vector<uint8_t> file_1_data = file_1->read();
     std::vector<uint8_t> file_a_data = file_a.read();
     EXPECT_EQ(file_1_data, file_a_data);
+
+    std::vector<uint8_t> dattta = sys_1.read_data_from_disk("hello");
 
     sys_1.destroy();
     EXPECT_FALSE(std::filesystem::exists(fs_name));

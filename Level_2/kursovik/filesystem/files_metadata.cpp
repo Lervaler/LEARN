@@ -10,15 +10,13 @@ MetaDataFiles::MetaDataFiles()
 {
 }
 
-bool MetaDataFiles::read(std::istream &stream)
-{
-    return true;
-}
+//bool MetaDataFiles::read(std::istream &stream)
+//{
+//    return true;
+//}
 
 bool MetaDataFiles::write(std::ostream& stream)
 {
-//    size_t table_size = _files_meta_data.size();
-//    stream.write(reinterpret_cast<const char*>(&table_size), sizeof(table_size));
     for (const auto& [key, value]: _files_meta_data)
     {
         stream.write(reinterpret_cast<const char*>(key.data()), key.size()); // sizeof(Max_size_of_name_file)
@@ -28,8 +26,8 @@ bool MetaDataFiles::write(std::ostream& stream)
     return stream.good();
 }
 
-size_t MetaDataFiles::size() const
-{
-
-}
+//size_t MetaDataFiles::size() const
+//{
+//
+//}
 }
