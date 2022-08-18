@@ -57,9 +57,10 @@ TEST (Filesystem_test, write_file)
 //   std::vector <uint8_t> read = sys_1.read_file(*file_1);
 //   std::cout << read.data() << std::endl;
 
-    file_1->delete_file();
-    file_3->write("ffffffffffffffffff");
-    file_3->flush();
+//    file_1->delete_file();
+//    file_3->write("ffffffffffffffffff");
+//    file_3->flush();
+    sys_1.read_file(*file_1);
 
 }
 

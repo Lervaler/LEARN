@@ -1,10 +1,5 @@
 #include "filesystem_metadata.h"
 
-/*
-uint32_t _magic_value = 0; // магическое число
-std::array<bool, BLOCK_COUNT> _free_space;
-std::array<uint32_t , BLOCK_COUNT> _fat_tab;
-*/
 namespace MyFileSystem
 {
 MetaData::MetaData()

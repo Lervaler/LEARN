@@ -46,9 +46,8 @@ public:
     std::shared_ptr<MyFileSystem::MyFile> create_file(std::string name_file); // создание файла
     void rename_file(MyFileSystem::MyFile& file, std::string new_name ); // переименование
     void flush_file(MyFileSystem::MyFile& file); // запись файла в фс
-    std::vector<uint8_t> read_file(std::string name_file); // прочитать файл
+    void read_file(MyFileSystem::MyFile& file); // прочитать файл
     void delete_file(MyFileSystem::MyFile& file); // удалить файла из фс
-    auto getName(int & i);
 };
 }
 

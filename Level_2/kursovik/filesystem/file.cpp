@@ -9,7 +9,6 @@ namespace MyFileSystem
 MyFile::MyFile(std::string name_file, FileSystem& filesystem)
     : _data_file(0)
     , filesystem(filesystem)
-    ,_count_file(nullptr)
 {
     _meta_data_file._name_file = std::move(name_file);
     _meta_data_file._size_file = 0;
@@ -45,19 +44,14 @@ void MyFile::flush()
     filesystem.flush_file(*this);
 }
 
-//void MyFile::read()
-//{
-//    filesystem.read_file(*this);
-//}
+void MyFile::read()
+{
+    filesystem.read_file(*this);
+}
 
 void MyFile::delete_file()
 {
     filesystem.delete_file(*this);
-}
-
-auto MyFile::getName()
-{
-    return _meta_data_file._name_file;
 }
 
 }

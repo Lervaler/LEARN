@@ -21,13 +21,10 @@ private:
     MetaDataFile _meta_data_file;
     std::vector<uint8_t> _data_file; // данные файла
     FileSystem& filesystem; // указание к какой фс принадлежит
-    int* _count_file;
 
     MyFile(std::string name_file, FileSystem& filesystem);
 
 public:
-
-
     friend void func_fat_indexing(const MyFileSystem::MyFile& file, int64_t blocks_max, FileSystem& filesystem);
     friend std::vector<uint32_t> func_take_cur_fileindexes(const MyFileSystem::MyFile& file, int64_t blocks_max, FileSystem& filesystem);
     friend void func_make_fat_indexing(MyFileSystem::MyFile& file, int64_t blocks_max, FileSystem& filesystem);
@@ -37,9 +34,8 @@ public:
     void write_append(const std::string& data);
     void rename(std::string new_name);
     void flush();
-//    void read();
+    void read();
     void delete_file();
-    auto getName();
 };
 }
 

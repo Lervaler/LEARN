@@ -6,13 +6,11 @@
 #include <string>
 #include <unordered_map>
 
-//class MyFile;
 namespace MyFileSystem
 {
 
 struct MetaDataFiles
 {
-//    friend class MyFile;
     std::unordered_map<std::string, MetaDataFile> _files_meta_data;
 
     MetaDataFiles();
@@ -21,6 +19,5 @@ struct MetaDataFiles
     bool write(std::ostream& stream);
     size_t size() const;
 };
-
 }
 #endif // FILES_METADATA_H
