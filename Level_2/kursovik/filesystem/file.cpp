@@ -45,10 +45,19 @@ void MyFile::flush()
     filesystem.flush_file(*this);
 }
 
+//void MyFile::read()
+//{
+//    filesystem.read_file(*this);
+//}
+
 void MyFile::delete_file()
 {
     filesystem.delete_file(*this);
+}
 
+auto MyFile::getName()
+{
+    return _meta_data_file._name_file;
 }
 
 }

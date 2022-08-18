@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <exception>
 #include <iostream>
+#include <ostream>
 #include <fstream>
 #include <filesystem>
 #include <vector>
@@ -31,7 +32,8 @@ FileSystem FileSystem::create(std::string name)
     {
        filesystem._disk_mdfiles.fill(META_DATA_FREE); // заполнение данных
        filesystem._data.fill(FREE_DATA); // заполнение данных
-       filesystem._meta_data._fat_tab[0] = RESERVED_FAT;
+       filesystem._meta_data._fat_tab[0] = RESERVED_FAT; // первая ячейка индекса в резерве для незафлашеных файлов
+       filesystem._meta_data._fat_tab[1] =  DELETED_FAT; // вторая ячейка индекса в резерве для удаленных файлов
         std::ofstream file_system(filesystem._name, std::ios::binary);
 
         file_system.seekp(0, std::ios::beg);
@@ -152,19 +154,56 @@ void FileSystem::flush_file(MyFileSystem::MyFile& file)
     }
 }
 
+std::vector<uint8_t> FileSystem::read_file(std::string name_file)
+{
+
+
+//     return read_data_file;
+}
+
+
 void FileSystem::delete_file(MyFileSystem::MyFile& file)
 {
-     if (file._meta_data_file._fat_index != 0)
-     {
+    if(file._meta_data_file._fat_index != 0)
+    {
+        int64_t blocks_max = (file._meta_data_file._size_file/ BLOCK_SIZE) + 1;
+        // считываем текущие фат-индексы файла
+        std::vector<uint32_t> current_file_indexes = func_take_cur_fileindexes(file, blocks_max, *this);
 
-     }
+        // освобождение фат-таблицы от текущих индексов
+        for(uint32_t i = 0; i < current_file_indexes.size(); ++i)
+        {
+             _meta_data._fat_tab[current_file_indexes.at(i)] = EMPTY_FAT;
+        }
+
+        // освобождение свободного места
+         func_reset_free_spase(current_file_indexes, *this);
+         file._meta_data_file._fat_index = 1; // флаг удаленного
+
+         // удаляем файл из вектора всех файлов
+          func_delete_from_files_vector(file, *this);
+
+        // удаляем файл из метадаты файлов
+        auto it = _meta_data_files._files_meta_data.find(file._meta_data_file._name_file);
+        if (it != _meta_data_files._files_meta_data.end())
+        {
+            _meta_data_files._files_meta_data.erase(it);
+        }
+
+        // перезаписать данные на диске
+        std::ofstream file_system(_name, std::ios_base::in);
+        file_system.seekp(0, std::ios::beg);
+        _meta_data.write(file_system);
+        file_system.seekp(_meta_data.size(), std::ios::beg);
+        _meta_data_files.write(file_system);
+    }
 
      else
      {
-
-//         _files.erase(_files.begin());
-
+        // удаляем файл из вектора всех файлов
+         func_delete_from_files_vector(file, *this);
      }
 }
+
 
 }

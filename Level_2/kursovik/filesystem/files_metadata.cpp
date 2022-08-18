@@ -1,6 +1,7 @@
 #include "files_metadata.h"
 #include <iterator>
 #include <ostream>
+#include "sign.h"
 //    std::unordered_map<std::string, MetaDataFile> _files_meta_data;
 
 namespace MyFileSystem
@@ -20,7 +21,7 @@ bool MetaDataFiles::write(std::ostream& stream)
 //    stream.write(reinterpret_cast<const char*>(&table_size), sizeof(table_size));
     for (const auto& [key, value]: _files_meta_data)
     {
-        stream.write(reinterpret_cast<const char*>(key.data()), key.size());
+        stream.write(reinterpret_cast<const char*>(key.data()), key.size()); // sizeof(Max_size_of_name_file)
         stream.write(reinterpret_cast<const char*>(&value._fat_index), sizeof(value._fat_index));
         stream.write(reinterpret_cast<const char*>(&value._size_file), sizeof(value._size_file));
     }

@@ -12,6 +12,7 @@ namespace MyFileSystem
         END_BLOCK = -1,
         EMPTY_FAT = 0,
         RESERVED_FAT = -2,
+        DELETED_FAT = -3,
         META_DATA_FREE = 0,
         FREE_DATA = 1
     };
