@@ -58,9 +58,21 @@ void FileSystem::destroy()
 
 std::shared_ptr<MyFileSystem::MyFile> FileSystem::create_file(std::string name_file)
 {
-    std::shared_ptr<MyFileSystem::MyFile>file {new MyFileSystem::MyFile{std::move(name_file), *this} };
-    _files.push_back(file);
-    return file;
+    // сделать проверку на название файла - чтобы не повторялись
+
+    std::string name_name_for_find = name_file;
+    auto itr = find_if(_files.begin(), _files.end(), [&name_name_for_find](const auto& element)
+    {
+        return element->_meta_data_file._name_file == name_name_for_find;
+    });
+
+   if(itr == _files.end())
+   {
+       std::shared_ptr<MyFileSystem::MyFile>file {new MyFileSystem::MyFile{std::move(name_file), *this} };
+       _files.push_back(file);
+       return file;
+   }
+    else throw std::exception{};
 }
 
 void FileSystem::rename_file(MyFileSystem::MyFile& file, std::string new_name)
