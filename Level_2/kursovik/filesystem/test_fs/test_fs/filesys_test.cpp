@@ -352,3 +352,24 @@ TEST (Filesystem_test, two_files_long_append)
     EXPECT_FALSE(std::filesystem::exists(fs_name));
 }
 
+TEST (Filesystem_test, _delete)
+{
+    static const std::string fs_name = "D:\\01_Projects\\HomeWork\\"
+                                       "LEARN\\LEARN\\Level_2\\kursovik\\filesystem\\ONE.fs";
+
+    MyFileSystem::FileSystem sys_1 = MyFileSystem::FileSystem::create(fs_name);
+    EXPECT_TRUE(std::filesystem::exists(fs_name));
+
+    auto file_1 = sys_1.create_file("deleteeee");
+
+    file_1->write("aaa bbb ccc");
+    file_1->flush();
+
+    file_1->delete_file();
+
+    EXPECT_FALSE(sys_1.existing_file("deleteeee"));
+
+    sys_1.destroy();
+    EXPECT_FALSE(std::filesystem::exists(fs_name));
+}
+

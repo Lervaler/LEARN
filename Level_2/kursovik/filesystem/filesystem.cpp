@@ -57,7 +57,7 @@ void FileSystem::destroy()
 
 std::shared_ptr<MyFileSystem::MyFile> FileSystem::create_file(std::string name_file)
 {
-    // сделать проверку на название файла - чтобы не повторялись
+    // проверка на название файла - чтобы не повторялись
 
     std::string name_name_for_find = name_file;
     auto itr = find_if(_files.begin(), _files.end(), [&name_name_for_find](const auto& element)
@@ -313,6 +313,22 @@ std::vector<uint8_t> FileSystem::read_data_from_disk(std::string name_file)
         return data;
     }
     else throw std::exception{};
+}
+
+bool FileSystem::existing_file(std::string name_file)
+{
+    std::string name_name_for_find = std::move(name_file);
+    auto itr = find_if(_files.begin(), _files.end(), [&name_name_for_find](const auto& element)
+    {
+        return element->_meta_data_file._name_file == name_name_for_find;
+    });
+
+    int a = true;
+    if(itr == _files.end())
+    {
+        a = false;
+    }
+    return a;
 }
 
 }

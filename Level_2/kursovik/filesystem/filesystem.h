@@ -49,6 +49,7 @@ public:
     void delete_file(MyFileSystem::MyFile& file); // удалить файла из фс
     MyFileSystem::MyFile read_from_files(MyFileSystem::MyFile& file);
     std::vector<uint8_t> read_data_from_disk(std::string name_file);
+    bool existing_file(std::string name_file);
 };
 }
 
