@@ -14,8 +14,7 @@ namespace MyFileSystem
 {
 FileSystem::FileSystem(const std::string& name)
     : _name(name)
-{
-}
+{}
 
 FileSystem FileSystem::create(std::string name)
 {
@@ -288,32 +287,32 @@ std::vector<uint8_t> FileSystem::read_data_from_disk(std::string name_file)
     if(itr != _files.end())
     {
         a = std::distance(_files.begin(), itr);
-    }
 
-    MyFile file_a = (* _files[a]);
+        MyFile file_a = (* _files[a]);
 
-    uint64_t size = file_a._meta_data_file._size_file;
+        uint64_t size = file_a._meta_data_file._size_file;
 
-    int64_t blocks_max = (size/ BLOCK_SIZE) + 1;
-    std::vector<uint32_t> current_file_indexes = func_take_cur_fileindexes(file_a, blocks_max, *this);
+        int64_t blocks_max = (size/ BLOCK_SIZE) + 1;
+        std::vector<uint32_t> current_file_indexes = func_take_cur_fileindexes(file_a, blocks_max, *this);
 
-    std::ifstream file_system(_name, std::ios::binary);
+        std::ifstream file_system(_name, std::ios::binary);
 
-    std::vector<uint8_t> data;
-    data.resize(size);
+        std::vector<uint8_t> data;
+        data.resize(size);
 
-    uint8_t k = 0;
-    for(uint8_t j = 0; j < blocks_max; ++j)
-    {
-        file_system.seekg(_meta_data.size()+ _disk_mdfiles.size()+ BLOCK_SIZE*current_file_indexes.at(j), std::ios::beg);
-        for(uint8_t i = 0; i < BLOCK_SIZE && k < size; ++i)
+        uint8_t k = 0;
+        for(uint8_t j = 0; j < blocks_max; ++j)
         {
-            file_system.read(reinterpret_cast<char*>(&data[k]), sizeof(i));
-            ++k;
+            file_system.seekg(_meta_data.size()+ _disk_mdfiles.size()+ BLOCK_SIZE*current_file_indexes.at(j), std::ios::beg);
+            for(uint8_t i = 0; i < BLOCK_SIZE && k < size; ++i)
+            {
+                file_system.read(reinterpret_cast<char*>(&data[k]), sizeof(i));
+                ++k;
+            }
         }
+        return data;
     }
-
-    return data;
+    else throw std::exception{};
 }
 
 }

@@ -1,19 +1,14 @@
 #include "files_metadata.h"
+#include "sign.h"
+
 #include <iterator>
 #include <ostream>
-#include "sign.h"
-//    std::unordered_map<std::string, MetaDataFile> _files_meta_data;
 
 namespace MyFileSystem
 {
-MetaDataFiles::MetaDataFiles()
-{
-}
 
-//bool MetaDataFiles::read(std::istream &stream)
-//{
-//    return true;
-//}
+MetaDataFiles::MetaDataFiles()
+{}
 
 bool MetaDataFiles::write(std::ostream& stream)
 {
@@ -26,8 +21,4 @@ bool MetaDataFiles::write(std::ostream& stream)
     return stream.good();
 }
 
-//size_t MetaDataFiles::size() const
-//{
-//
-//}
 }

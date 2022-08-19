@@ -352,27 +352,3 @@ TEST (Filesystem_test, two_files_long_append)
     EXPECT_FALSE(std::filesystem::exists(fs_name));
 }
 
-
-//file_1->flush();
-
-//    auto file_2 = sys_1.create_file("world");
-//    auto file_3 = sys_1.create_file("file2");
-
-//    file_2->write("qqq www www");
-//    file_2->flush();
-//    file_1->write("ooooo ooooo ");
-//    file_1->flush();
-//    file_1->write_append("eee");
-//    file_1->flush();
-
-//    sys_1.rename_file(*file_1, "new_name");
-
-//   std::vector <uint8_t> read = sys_1.read_file(*file_1);
-//   std::cout << read.data() << std::endl;
-
-//    file_1->delete_file();
-//    file_3->write("ffffffffffffffffff");
-//    file_3->flush();
-//    sys_1.read_file(*file_1);
-
-

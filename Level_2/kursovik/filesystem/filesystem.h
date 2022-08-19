@@ -14,11 +14,10 @@
 
 namespace MyFileSystem
 {
-class MyFile;
+class MyFile; // forward declaration
 
 class FileSystem
 {
-
 private:
     std::string _name; // имя файловой системы (файл .fs)
     MetaData _meta_data; // метаданные файловой системы - основные характеристики

@@ -2,6 +2,7 @@
 
 namespace MyFileSystem
 {
+
 MetaData::MetaData()
 : _magic_value(MAGIC_VALUE)
 {

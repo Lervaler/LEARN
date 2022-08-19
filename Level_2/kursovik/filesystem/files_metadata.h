@@ -15,9 +15,7 @@ struct MetaDataFiles
 
     MetaDataFiles();
 
-    bool read(std::istream& stream);
     bool write(std::ostream& stream);
-    size_t size() const;
 };
 }
 #endif // FILES_METADATA_H
