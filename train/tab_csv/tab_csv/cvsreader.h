@@ -8,12 +8,13 @@
 class Cvsreader
 {
 private:
-    std::vector <std::vector<std::string>> names_colomn;
+    std::vector<std::string> names_colomn;
     std::vector<int> number_str;
 public:
 
     void read_tab(const std::string& path);
-    void fix_tab(std::vector<std::string>& new_word,  std::vector<std::string>& all_tab);
+    void fix_tab(std::vector<std::string> new_word, std::vector<std::string>& all_tab);
+    bool search(std::vector<std::string>& all_tab);
 
 };
 

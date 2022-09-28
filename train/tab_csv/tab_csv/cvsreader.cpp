@@ -66,23 +66,19 @@ void Cvsreader::read_tab(const std::string& path)
 
     std::cout<< new_word.size()<< std::endl;
 
-    std::cout<<std::stoi(all_tab[8]) << std::endl;
-
-    auto graph_for_fix =  std::find_if(all_tab.begin(), all_tab.end(),
-                              [](const std::string& value)
-                              {
-                                  return value[0] == '=';
-                              }
-                          );
-    std::cout<< *graph_for_fix << std::endl;
-
-    while(graph_for_fix != all_tab.end())  // пока не будет находится значение с =
+    while(search(all_tab) == true)
     {
         fix_tab(new_word, all_tab);
     }
+
+   for(const auto& elem: all_tab)
+   {
+       std::cout<< elem << std::endl;
+   }
+
 }
 
-void Cvsreader::fix_tab(std::vector<std::string>& new_word,  std::vector<std::string>& all_tab)
+void Cvsreader::fix_tab(std::vector<std::string> new_word,  std::vector<std::string>& all_tab)
 {
     auto graph_for_fix =  std::find_if(all_tab.begin(), all_tab.end(),
                               [](const std::string& value)
@@ -90,7 +86,7 @@ void Cvsreader::fix_tab(std::vector<std::string>& new_word,  std::vector<std::st
                                   return value[0] == '=';
                               }
                           );
-
+    std::cout<< *graph_for_fix << std::endl;
     std::string formating = *graph_for_fix;        // сюда записана строка типа =A1+B1
 
     std::string arg1;
@@ -199,5 +195,18 @@ void Cvsreader::fix_tab(std::vector<std::string>& new_word,  std::vector<std::st
          }
      }
 
-int dsf = 0;
+    int dsf = 0;
+}
+
+bool Cvsreader::search(std::vector<std::string>& all_tab)
+{
+    auto graph_for_fix =  std::find_if(all_tab.begin(), all_tab.end(),
+                              [](const std::string& value)
+                              {
+                                  return value[0] == '=';
+                              }
+                          );
+    if(graph_for_fix == all_tab.end())
+        return false;
+    else return true;
 }
