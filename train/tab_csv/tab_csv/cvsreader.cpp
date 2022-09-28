@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iterator>
 #include <algorithm>
+#include <sstream>
 
 void Cvsreader::read_tab(const std::string& path)
 {
@@ -67,16 +68,30 @@ void Cvsreader::read_tab(const std::string& path)
 
     std::cout<<std::stoi(all_tab[8]) << std::endl;
 
-    auto r =  std::find_if(all_tab.begin(), all_tab.end(),
+    auto graph_for_fix =  std::find_if(all_tab.begin(), all_tab.end(),
                               [](const std::string& value)
                               {
                                   return value[0] == '=';
                               }
                           );
-    std::cout<< *r << std::endl;
-    std::string formating = *r;        // сюда записана строка типа =A1+B1
+    std::cout<< *graph_for_fix << std::endl;
 
-    // ищем первый и второй элементы подлежащие операции по имени
+    while(graph_for_fix != all_tab.end())  // пока не будет находится значение с =
+    {
+        fix_tab(new_word, all_tab);
+    }
+}
+
+void Cvsreader::fix_tab(std::vector<std::string>& new_word,  std::vector<std::string>& all_tab)
+{
+    auto graph_for_fix =  std::find_if(all_tab.begin(), all_tab.end(),
+                              [](const std::string& value)
+                              {
+                                  return value[0] == '=';
+                              }
+                          );
+
+    std::string formating = *graph_for_fix;        // сюда записана строка типа =A1+B1
 
     std::string arg1;
     std::string num_arg1;
@@ -172,6 +187,17 @@ void Cvsreader::read_tab(const std::string& path)
         }
     }
 
+    // исправляем значение в таблице all_tab
 
-    int dsf = 0;
+    std::string result_for_vector = std::to_string(result);
+
+    for(int i = 0; i < all_tab.size(); ++i)
+     {
+         if(all_tab[i] == formating)
+         {
+             all_tab[i] = result_for_vector;
+         }
+     }
+
+int dsf = 0;
 }

@@ -13,6 +13,7 @@ private:
 public:
 
     void read_tab(const std::string& path);
+    void fix_tab(std::vector<std::string>& new_word,  std::vector<std::string>& all_tab);
 
 };
 
