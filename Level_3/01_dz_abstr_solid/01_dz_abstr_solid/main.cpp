@@ -7,7 +7,7 @@ int main()
     const std::string name = "MENU";
 
     My_menu menu(name);
-    std::cout<<menu.get_name_my_menu() <<std::endl;
+//    std::cout<<menu.get_name_my_menu() <<std::endl;
 
 //    std::cout<<menu.get_ptr_my_menu()<<std::endl;
 
@@ -21,6 +21,10 @@ int main()
 
    menu.add_sub_submenu(sub, ssub2);
 
+   const std::string sssub2 = "open_open";
+   menu.add_sub_submenu(ssub2, sssub2);
+
+   menu.show_menu();
 
     int d = 5;
      std::cout<<d;

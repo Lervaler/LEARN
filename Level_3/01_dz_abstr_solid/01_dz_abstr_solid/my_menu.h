@@ -16,6 +16,8 @@ public:
     void add_level_1_submenu(const std::string& name_level_1_sub_menu); // создать пункт меню - уровень 1
     void add_sub_submenu(const std::string& name_sub_menu, const std::string& name_sub_sub_menu); //создание подпункта - по имени пункта уровня 1 или ниже
 
+    void show_menu();
+
     My_menu(const std::string& name_my_menu);
     ~My_menu();
 };

@@ -1,5 +1,6 @@
 #include "my_menu.h"
 #include <algorithm>
+#include <iostream>
 
     My_menu::My_menu(const std::string& name_my_menu)
         :_name_my_menu(std::move(name_my_menu))
@@ -35,3 +36,48 @@
         }
     }
 
+    void My_menu::show_menu()
+    {
+
+        bool status_point = false;
+        char point = ' ';
+
+        std::cout<<_name_my_menu<<std::endl;
+        std::cout<<" "<<std::endl;
+        for(const auto& [first, second]: _sub_menu)
+        {
+            if(*second == _name_my_menu)
+            {
+                std::cout<<point<<first<<std::endl;
+            }
+        }
+
+        bool proverka = true;
+        while(proverka)
+        {
+            std::string choise;
+            std::cin>>choise;
+
+            if(choise == "stop")
+            {
+                exit(0);
+            }
+            else
+            {
+                auto search = _sub_menu.find(choise);
+
+                if(search != _sub_menu.end())
+                {
+                    system("cls");
+                    for(const auto& [first, second]: _sub_menu)
+                    {
+                        if(*second == choise)
+                        {
+                            std::cout<<point<<first<<std::endl;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
