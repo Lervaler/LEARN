@@ -7,6 +7,9 @@
 //        ,_sub_menu(0)   std::unordered_map<std::string, std::shared_ptr<std::string>>
     {}
 
+
+
+
     My_menu::~My_menu()
     {}
 
@@ -15,10 +18,17 @@
         return _name_my_menu;
     }
 
-    std::shared_ptr<My_menu> My_menu::get_ptr_my_menu() // указатель на объект
+//    std::shared_ptr<My_menu> My_menu::get_ptr_my_menu() // указатель на объект
+//   {
+//       return std::shared_ptr<My_menu>(this);
+//   }
+
+
+    std::shared_ptr<My_menu> My_menu::getptr()
     {
-//        return std::shared_ptr<My_menu>(this);
+        return shared_from_this();
     }
+
 
     void My_menu::add_level_1_submenu(const std::string& name_level_1_sub_menu) // создать пункт меню - уровень 1
     {
@@ -39,7 +49,6 @@
     void My_menu::show_menu()
     {
 
-        bool status_point = false;
         char point = ' ';
 
         std::cout<<_name_my_menu<<std::endl;
@@ -61,6 +70,16 @@
             if(choise == "stop")
             {
                 exit(0);
+            }
+            else if(choise == _name_my_menu)
+            {
+                for(const auto& [first, second]: _sub_menu)
+                {
+                    if(*second == _name_my_menu)
+                    {
+                        std::cout<<point<<first<<std::endl;
+                    }
+                }
             }
             else
             {
