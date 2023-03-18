@@ -1,16 +1,27 @@
 #include <iostream>
 
 #include "my_menu.h"
+#include "keeper.h"
 
 int main()
 {
-    const std::string name = "MENU";
-    const std::string name1 = "punkt";
-    const std::string name2 = "pod_punkt";
+    const std::string name = "FILE";
+    const std::string name1 = "VIEW";
+    const std::string name2 = "open";
+    const std::string name3 = "viewwww";
 
-    My_menu menu(name);
-    My_menu pukt(name1, menu);
-    My_menu podpukt(name2, pukt);
+//    My_menu menu(name);
+//    My_menu pukt(name1, menu);
+//    My_menu podpukt(name2, pukt);
+
+    Keeper menu;
+    My_menu one = menu.create_punkt(name);
+
+    menu.create_ppunkt(name2, one);
+    menu.create_ppunkt(name3, menu.create_punkt(name1));
+
+    menu.show_menu();
+
 //    std::cout<<menu.get_name_my_menu() <<std::endl;
 
 //    std::cout<<menu.get_ptr_my_menu()<<std::endl;
@@ -38,7 +49,7 @@ int main()
 //   menu.show_menu();
 //
     int d = 5;
-     std::cout<<d;
+    std::cout<<d;
 
     return 0;
 }

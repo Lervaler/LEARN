@@ -39,6 +39,15 @@
         std::cout<<_name_punkt<<std::endl;
     }
 
+    std::string My_menu::get_master()
+    {
+        std::string name = "empty";
+        for(auto elem: _master)
+        {
+            name = elem.first;
+        }
+        return name;
+    }
 
 //    void My_menu::add_level_1_submenu(const std::string& name_level_1_sub_menu) // создать пункт меню - уровень 1
 //    {
