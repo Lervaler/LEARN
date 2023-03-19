@@ -1,7 +1,6 @@
 #include "keeper.h"
-#include <iostream>
 #include <algorithm>
-
+#include <iostream>
 
     My_menu Keeper::create_punkt(const std::string name)
     {
@@ -9,6 +8,7 @@
         _all_menu.push_back(punkt);
         return punkt;
     }
+
     My_menu Keeper::create_ppunkt(const std::string name, const My_menu& menu)
     {
         My_menu punkt = My_menu(std::move(name), menu);
@@ -67,5 +67,10 @@
                 }
             }
         }
+    }
+
+    std::vector<My_menu> Keeper::get_keeper()
+    {
+        return _all_menu;
     }
 
