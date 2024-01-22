@@ -9,9 +9,8 @@ std::string func_3(std::string s, int numRows)
 
   for (int i = 0; i < s.size();)
   {
-    for (int j = 0; j < numRows;)
+    for (int j = 0; j < numRows && i != s.size();)
     {
-      if (i >= s.size()) break;
       vec[j] += s[i];
       ++j;
       ++i;
@@ -19,12 +18,10 @@ std::string func_3(std::string s, int numRows)
 
     if (numRows > 2)
     {
-      for (int j = numRows - 2, k = 0; k < numRows - 2;)
+      for (int j = numRows - 2; j > 0 && i != s.size();)
       {
-        if (i >= s.size()) break;
         vec[j] += s[i];
         --j;
-        ++k;
         ++i;
       }
     }
