@@ -77,11 +77,12 @@ TEST(Test7, test7)
 TEST(Test8, test8)
 {
   std::string s = "-91283472332";
-  int test      = -INT_MAX - 1;
+  int test      = -2147483648;
   int res       = myAtoi(s);
 
   EXPECT_EQ(test, res);
 }
+
 
 TEST(Test9, test9)
 {
@@ -116,10 +117,55 @@ TEST(Test12, test12)
 
   EXPECT_EQ(test, res);
 }
+
 TEST(Test13, test13)
 {
   std::string s = "00034";
   int test      = 34;
+  int res       = myAtoi(s);
+
+  EXPECT_EQ(test, res);
+}
+
+TEST(Test14, test14)
+{
+  std::string s = "-000000000000000000000000000000000000000000000000001";
+  int test      = -1;
+  int res       = myAtoi(s);
+
+  EXPECT_EQ(test, res);
+}
+
+TEST(Test15, test15)
+{
+  std::string s = "-2147483647";
+  int test      = -2147483647;
+  int res       = myAtoi(s);
+
+  EXPECT_EQ(test, res);
+}
+
+TEST(Test16, test16)
+{
+  std::string s = "-2147483648";
+  int test      = -2147483648;
+  int res       = myAtoi(s);
+
+  EXPECT_EQ(test, res);
+}
+
+TEST(Test17, test17)
+{
+  std::string s = "2147483648";
+  int test      = 2147483647;
+  int res       = myAtoi(s);
+
+  EXPECT_EQ(test, res);
+}
+TEST(Test18, test18)
+{
+  std::string s = "-91283472332";
+  int test      = -2147483648;
   int res       = myAtoi(s);
 
   EXPECT_EQ(test, res);
