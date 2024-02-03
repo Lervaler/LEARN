@@ -57,7 +57,7 @@ int myAtoi(std::string s) {
       j = 1;
     }
 
-    if ((isdigit(s[i]) == false)) // && (b != 0)) // && (s[i] != '.'))
+    if ((isdigit(s[i]) == false))
     {
       b = 0;
       j = 1;
