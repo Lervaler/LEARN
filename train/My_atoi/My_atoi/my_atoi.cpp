@@ -3,68 +3,85 @@
 #include <limits.h>
 
 int myAtoi(std::string s) {
-  std::vector<long long> v;
-  long long answer = 0;
-  int positive     = false;
-  int negative     = false;
+  int positive = false;
+  int negative = false;
+  long long b  = 0;
 
-  for (int i = 0; i < s.size();)
+  long long j = 1;
+  int size    = 0;
+
+  for (int i = 0; i < s.size(); ++i)
   {
-    if ((s[i] == ' ') || (s[i] == '+') || (s[i] == '-') ||
-        (isdigit(s[i]) == true))
+    if ((s[i] == '0') || (s[i] == '+') || (s[i] == '-') || (s[i] == ' '))
     {
-      if (s[i] == '+') ++positive;
-
-      if (s[i] == '-') ++negative;
-
-      if ((isdigit(s[i]) == true) && (s[i] != '0')) answer += (s[i] - '0');
-
-      if ((isdigit(s[i]) == true) && (s[i] == '0') &&
-          !v.empty()) v.push_back(s[i] - '0');
-
-      if ((s[i] == '0') && (isdigit(s[i + 1]) == false)) break;
-
-      ++i;
+      ++size;
     }
-    else break;
+
+    if (s[i] == '+') ++positive;
+
+    if (s[i] == '-') ++negative;
+
+    if ((s[i] == '+') && (i > 0) && ((std::isdigit(s[i - 1]) == true) ||
+                                     (std::isdigit(s[i + 1]) ==
+                                      false))) return 0;
+
+    if ((s[i] == '-') && (i > 0) && ((std::isdigit(s[i - 1]) == true) ||
+                                     (std::isdigit(s[i + 1]) ==
+                                      false))) return 0;
+
+    if ((s[i] == ' ') && (i > 0) && (std::isdigit(s[i - 1]) == true)) return 0;
+
+    if ((isdigit(s[i]) == true) && (s[i] != '0')) break;
   }
 
-  // if (v.empty()) return 0;
-  //
-  //
-  // long long zeros  = 1;
-  //
-  //
-  // for (int i = 0; i < v.size() - 1; ++i) zeros = zeros * 10;
-  //
-  // for (int i = 0; i < v.size(); ++i)
-  // {
-  //   if (answer * zeros >= 2147483648)
-  //   {
-  //     if (negative == true)
-  //     {
-  //       answer = INT_MIN;
-  //       break;
-  //     }
-  //     else
-  //     {
-  //       answer = INT_MAX;
-  //       break;
-  //     }
-  //   }
-  //   answer += v[i] * zeros;
-  //   zeros   = zeros / 10;
-  // }
-  //
-  if ((negative == true) && (answer != INT_MIN))
+
+  for (int i = s.size() - 1; i >= size;)
   {
-    answer = -answer;
+    if (isdigit(s[i]) == true)
+    {
+      if ((b + (s[i] - '0') * j) >= 2147483648)
+      {
+        b = 2147483648;
+      }
+      else
+      {
+        b += (s[i] - '0') * j;
+
+        if (j < 100000000000) j = j * 10;
+      }
+    }
+
+    if ((s[i] == '.') && (b != 0))
+    {
+      b = 0;
+      j = 1;
+    }
+
+    if ((isdigit(s[i]) == false)) // && (b != 0)) // && (s[i] != '.'))
+    {
+      b = 0;
+      j = 1;
+    }
+    --i;
+  }
+
+  if (negative == true)
+  {
+    if (b >= 2147483648) b = INT_MIN;
+    else b = -b;
+  }
+
+  if (negative == false)
+  {
+    if (b > INT_MAX) b = INT_MAX;
   }
 
   if ((negative == true) && (positive == true))
   {
-    answer = 0;
+    b = 0;
   }
 
-  return answer;
+  int c = static_cast<int>(b);
+
+  return c;
 }

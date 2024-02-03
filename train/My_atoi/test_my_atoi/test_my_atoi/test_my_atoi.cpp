@@ -170,3 +170,75 @@ TEST(Test18, test18)
 
   EXPECT_EQ(test, res);
 }
+
+TEST(Test19, test19)
+{
+  std::string s = "102";
+  int test      = 102;
+  int res       = myAtoi(s);
+
+  EXPECT_EQ(test, res);
+}
+
+TEST(Test20, test20)
+{
+  std::string s = "3.14159";
+  int test      = 3;
+  int res       = myAtoi(s);
+
+  EXPECT_EQ(test, res);
+}
+
+TEST(Test21, test21)
+{
+  std::string s = "  0000000000012345678";
+  int test      = 12345678;
+  int res       = myAtoi(s);
+
+  EXPECT_EQ(test, res);
+}
+
+TEST(Test22, test22)
+{
+  std::string s = "  -0012a42";
+  int test      = -12;
+  int res       = myAtoi(s);
+
+  EXPECT_EQ(test, res);
+}
+
+TEST(Test23, test23)
+{
+  std::string s = "   +0 123";
+  int test      = 0;
+  int res       = myAtoi(s);
+
+  EXPECT_EQ(test, res);
+}
+
+TEST(Test24, test24)
+{
+  std::string s = "-13+8";
+  int test      = -13;
+  int res       = myAtoi(s);
+
+  EXPECT_EQ(test, res);
+}
+
+TEST(Test25, test25)
+{
+  std::string s = "  +  413";
+  int test      = 0;
+  int res       = myAtoi(s);
+
+  EXPECT_EQ(test, res);
+}
+
+TEST(Test26, test26)
+{
+  std::string s = "        +1114054094z0";
+  int test      = 1114054094;
+  int res       = myAtoi(s);
+
+  EXPECT_EQ(test, res);
+}
